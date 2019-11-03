@@ -1,0 +1,37 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 10px;">
+        <div class="col-6">
+            <h4>Suggestions</h4>
+        </div>
+        <div class="col-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link btn-light" routerLink="/suggestions/edit">
+                        <span style="margin-right: 5px; display: inline-block; ">
+                            <fa-icon [icon]="faComment"></fa-icon>
+                        </span>
+                        <sup style="margin-left: 0px;">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                        </sup>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <table style="border: 2px solid #eee;" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+        <thead>
+            <tr>
+                <th>Section </th>
+                <th>Commentaire</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of suggestions" (click)="viewSuggestion(a)">
+                <td>{{a.section}}</td>
+                <td>{{a.commentaire}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

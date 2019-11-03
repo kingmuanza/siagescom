@@ -1,0 +1,115 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 20px;">
+        <div class="col-6">
+            <h4>Paiements</h4>
+        </div>
+        <div class="col-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link btn-light" routerLink="/ventes/edit">
+                        <span style="margin-right: 5px; display: inline-block; ">
+                            <fa-icon [icon]="faShoppingCart"></fa-icon>
+                        </span>
+                        <sup style="margin-left: 0px;">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                        </sup>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="marginBottomOnMobile">
+            <form [formGroup]="rechercheForm" (ngSubmit)="onSubmitForm()">
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Date début
+                                </span>
+                            </div>
+                            <input placeholder="Date début" type="date" formControlName="debut" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Date fin
+                                </span>
+                            </div>
+                            <input placeholder="Date fin" type="date" formControlName="fin" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 marginBottomOnMobile">
+                        <button type="submit" [disabled]="rechercheForm.invalid" class="btn btn-primary btn-block">
+                            Rechercher
+                        </button>
+                    </div>
+                    <div class="col-lg-2 marginBottomOnMobile">
+                        <a (click)="reinit()" style="color:#fff" class="btn btn-primary btn-block">
+                            Réinitialiser
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <app-stats-ventes [ventes]="VENTES"></app-stats-ventes>
+
+
+    <table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions" [ngClass]="{'table row-border hover': true, 'table-responsive':mobile}">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>Vendeur</th>
+                <th>Client</th>
+                <th>Référence</th>
+                <th>Articles</th>
+                <th style="text-align: right">Prix</th>
+                <th style="text-align: right">Remise</th>
+                <th style="text-align: right">Total</th>
+                <th style="text-align: right">Perçu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr [ngClass]="{'error': sommePercue(paiement.vente)<total(paiement.vente.ventesArticles) - remise(paiement.vente)}"
+                *ngFor="let paiement of paiements" (click)="viewVente(paiement.vente)">
+                <td>{{paiement.date.toDate() | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{paiement.vente.utilisateur.nom}}</td>
+                <td>{{paiement.vente.client ? paiement.vente.client.nomComplet : ''}}</td>
+                <td>{{paiement.vente.reference | uppercase}}</td>
+                <td>
+                    <div *ngFor="let va of paiement.vente.ventesArticles">
+                        <span>
+                            {{va.entree.article.libelle}}
+                        </span>
+                        <b style="float: right">
+                            {{va.quantite}}
+                        </b>
+                    </div>
+    
+                </td>
+                <td style="text-align: right">{{total(paiement.vente.ventesArticles) | currency:'XAF':''}}</td>
+                <td style="text-align: right">{{remise(paiement.vente) | currency:'XAF':''}} </td>
+                <td style="text-align: right">
+                    <b>
+                        {{total(paiement.vente.ventesArticles) - remise(paiement.vente) | currency:'XAF':'' }}
+                    </b>
+                </td>
+                <td style="text-align: right">
+                    <b>
+                        {{paiement.montant | currency:'XAF':'' }}
+                    </b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

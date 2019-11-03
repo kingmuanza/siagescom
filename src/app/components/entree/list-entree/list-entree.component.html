@@ -1,0 +1,50 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 10px;">
+        <div class="col-6">
+            <h4>Achats</h4>
+        </div>
+        <div class="col-lg-6">
+            <ul class="nav justify-content-end nav-pills">
+
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link active" routerLink="/achats/edit">
+                        +
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Article</th>
+                <th>Description</th>
+                <th>Quantité</th>
+                <th>Quantité actuelle</th>
+                <th>Prix d'achat unitaire</th>
+                <th>Prix de vente unitaire</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of achats" (click)="viewEntree(a)">
+                <td>{{getDate(a) | date:'short'}}</td>
+                <td>{{a.article.libelle}}</td>
+                <td>
+                    {{a.article.description ? a.article.description: "Aucune description"}}
+                </td>
+                <td style="text-align: right">{{a.quantite}}</td>
+                <td style="text-align: right">
+                    <b>
+                        {{a.quantiteActuelle ?  a.quantiteActuelle : a.quantite}}
+                    </b>
+                </td>
+                <td style="text-align: right">{{a.prixAchatUnitaire | currency:'XAF':''}}</td>
+                <td style="text-align: right">{{a.prixVenteUnitaire | currency:'XAF':''}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

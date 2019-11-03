@@ -1,0 +1,27 @@
+.effet-vague2 {
+    background-image: url('../../../../assets/img/wave.png');
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+}
+.effet-vague {
+    background-image: url('../../../../assets/img/wave.png');
+    background-size: 500% auto;
+    background-repeat: no-repeat;
+}
+
+.app-bg-bleu {
+    background-color: rgba($color: #00AFF0, $alpha: 0.9);
+}
+.app-bg-vert {
+    background-color: rgba($color: #60a917, $alpha: 0.9);
+}
+.app-bg-orange {
+    background-color: rgba($color: #fa6800, $alpha: 0.9);
+}
+.app-bg-red {
+    background-color: rgba($color: #CE352C, $alpha: 0.9);
+}
+
+.col-lg-3 {
+    margin-bottom: 5px;
+}

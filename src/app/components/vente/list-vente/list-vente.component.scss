@@ -1,0 +1,17 @@
+tr {
+    cursor: pointer;
+}
+
+.error {
+    background-color: rgba($color: red, $alpha: 0.2);
+}
+.error:hover{
+    background-color: rgba($color: red, $alpha: 0.4);
+}
+
+@media only screen and (max-width: 500px) {
+
+    .marginBottomOnMobile {
+        margin-bottom: 5px;
+    }
+}

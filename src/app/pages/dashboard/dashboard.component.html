@@ -1,0 +1,63 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 0px;">
+        <div class="col-12">
+            <h4>Tabeau de bord</h4>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="marginBottomOnMobile" style="margin-bottom: -5px;">
+            <form [formGroup]="rechercheForm" (ngSubmit)="onSubmitForm()">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Date début
+                                </span>
+                            </div>
+                            <input placeholder="Date début" type="date" formControlName="debut" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Date fin
+                                </span>
+                            </div>
+                            <input placeholder="Date fin" type="date" formControlName="fin" class="form-control">
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <app-stats-ventes [ventes]="VENTES"></app-stats-ventes>
+    </div>
+
+    <div class="row animated slideInDown" style="margin-top: 0px;">
+        <div class="col-lg-12">
+            <div *ngIf="promotion" class="animated slideInDown" style="margin-bottom: 20px;">
+                <div class="alert alert-primary" role="alert" *ngIf="promotion">
+                    Une promotion est en cours actuellement, une remise de
+                    <b>{{promotion.pourcentageRemise}}%</b>
+                    sera accordée sur tous les articles
+                </div>
+            </div>
+            <div style="margin-left: 0px; border: 2px solid #eee; padding: 5px; margin-top: -5px;">
+                <div style="display: block;">
+                    <canvas height="100" baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                        [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

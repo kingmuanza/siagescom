@@ -1,0 +1,214 @@
+<div *ngIf="vente">
+    <div class="row animated slideInDown" style="margin-bottom: 20px;">
+        <div class="col-6">
+            <h4>Vente</h4>
+        </div>
+        <div class="col-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li *ngIf="net > percu " class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link btn-light" data-toggle="modal" data-target="#exampleModal">
+                        <span style="margin-right: 5px; display: inline-block; ">
+                            <fa-icon [icon]="faMoneyBill"></fa-icon>
+                        </span>
+                        <sup style="margin-left: 0px;">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                        </sup>
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link btn-light" routerLink="/ventes">
+                        <span style="margin-right: 5px; display: inline-block; ">
+                            <fa-icon [icon]="faList"></fa-icon>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="" style="margin-top: 10px; margin-bottom: 10px; width: 100%">
+        <ul [ngClass]="{'list-group': true, 'list-group-horizontal':!mobile, 'list-group-vertical':mobile}" style="width: 100%">
+            <li class="list-group-item">
+                <b>Ref.</b> <br>{{vente.reference}}
+            </li>
+            <li class="list-group-item">
+                <b>Vendeur</b><br>{{vente.utilisateur.nom}}
+            </li>
+            <li *ngIf="vente.client" class="list-group-item">
+                <b>Client</b><br>{{vente.client.nomComplet}}
+            </li>
+            <li class="list-group-item">
+                <b>Date</b><br>{{getDate(vente) | date:'dd-MM-yyyy'}}
+            </li>
+            <li class="list-group-item">
+                <b>Heure</b><br>{{getDate(vente) | date:'HH:mm:ss'}}
+            </li>
+            <li class="list-group-item">
+                <b>Total</b><br>{{total(vente.ventesArticles) | currency:'XAF':''}}
+            </li>
+            <li class="list-group-item">
+                <b>Remise</b><br>{{vente.remise | currency:'XAF':''}}
+            </li>
+            <li class="list-group-item">
+                <b>NAP</b><br>{{net | currency:'XAF':''}}
+            </li>
+            <li class="list-group-item">
+                <b>Percu</b><br>{{percu | currency:'XAF':''}}
+            </li>
+            <li class="list-group-item">
+                <b>Reste</b><br>{{total(vente.ventesArticles) - vente.remise - percu | currency:'XAF':''}}
+            </li>
+        </ul>
+    </div>
+
+    <app-stats-ventes [ventes]="ventes"></app-stats-ventes>
+
+    <div style="margin-top: 10px;">
+        <div>
+            Articles
+        </div>
+        <table [ngClass]="{'table row-border hover': true, 'table-responsive':mobile}" style="border: 2px solid #444">
+            <thead>
+                <tr>
+                    <th>Réf.</th>
+                    <th>Article</th>
+                    <th style="text-align: right">P.U.</th>
+                    <th style="text-align: right">Quantité</th>
+                    <th style="text-align: right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let va of vente.ventesArticles">
+                    <td>{{va.entree.article.ref |  uppercase}}</td>
+                    <td>
+                        <div>
+                            {{va.entree.article.libelle}}
+                        </div>
+                        <div style="margin-top: -5px">
+                            <small>
+                                Stock du {{va.entree.date.toDate() | date:'yyyy-MM-dd'}}
+                            </small>
+                        </div>
+                    </td>
+                    <td style="text-align: right">{{va.entree.prixVenteUnitaire | currency:'XAF':''}}</td>
+                    <td style="text-align: right">{{va.quantite}}</td>
+                    <td style="text-align: right">{{prix(va) | currency:'XAF':''}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4">Total</th>
+                    <th style="text-align: right">{{total(vente.ventesArticles)}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Remise</label>
+                <input readonly type="number" [(ngModel)]="vente.remise" [ngModelOptions]="{standalone: true}"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Net à payer</label>
+                <input readonly type="number" [(ngModel)]="net" [ngModelOptions]="{standalone: true}"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Montant perçu</label>
+                <input readonly type="number" [(ngModel)]="percu" [ngModelOptions]="{standalone: true}" class="form-control">
+
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Reste à payer</label>
+                <input readonly type="number" value="{{net - percu}}" class="form-control">
+
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 0px;">
+        <div>
+            Paiements
+        </div>
+        <table [ngClass]="{'table row-border hover': true}" style="border: 2px solid #444">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th style="text-align: right">Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="vente.montantPercu">
+                    <tr *ngFor="let paiement of vente.montantPercu">
+                        <td>
+                            {{paiement.date.toDate() | date:'yyyy-MM-dd'}}
+                        </td>
+                        <td style="text-align: right">{{paiement.montant | currency:'XAF':''}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!vente.montantPercu">
+                    <tr>
+                        <td>
+                            {{getDate(vente) | date:'yyyy-MM-dd'}}
+                        </td>
+                        <td style="text-align: right">{{percu | currency:'XAF':''}}</td>
+                    </tr>
+                </ng-container>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th style="text-align: right">{{percu}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div>
+        <button (click)="facture(vente)" class="btn btn-primary terminer onMobile100">
+            Voir la facture
+        </button>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nouveau paiement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form [formGroup]="paiementForm" (ngSubmit)="onSubmitPaiementForm()">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">
+                                    Montant
+                                </label>
+                                <input formControlName="montant" class="form-control">
+                            </div>
+                            <button type="submit" [disabled]="paiementForm.invalid"
+                                class="btn btn-primary">Enregistrer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<table datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+    [ngClass]="{'table row-border hover': true, 'table-responsive':mobile}" style="border: 2px solid #eee; ">
+    <thead style="border-top-width: 2px;" [ngClass]="{'borderBottomTable':addClassTime}">
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>Vendeur</th>
+            <th>Client</th>
+            <th>Référence</th>
+            <th>Articles</th>
+            <th style="text-align: right">Prix</th>
+            <th style="text-align: right">Remise</th>
+            <th style="text-align: right">Total</th>
+            <th style="text-align: right">Perçu</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="isIterable(ventes)" [ngClass]="{'borderTopTable':addClassTime}">
+        <tr [ngClass]="{'error': sommePercue(vente)<total(vente.ventesArticles) - remise(vente)}"
+            *ngFor="let vente of ventes" (click)="viewVente(vente)">
+            <td>{{vente.date.toDate() | date:'yyyy-MM-dd HH:mm'}}</td>
+            <td>{{vente.utilisateur.nom}}</td>
+            <td>{{vente.client ? vente.client.nomComplet : ''}}</td>
+            <td>{{vente.reference | uppercase}}</td>
+            <td>
+                <div *ngFor="let va of vente.ventesArticles">
+                    <span>
+                        {{va.entree.article.libelle}}
+                    </span>
+                    <b style="float: right">
+                        {{va.quantite}}
+                    </b>
+                </div>
+
+            </td>
+            <td style="text-align: right">{{total(vente.ventesArticles) | currency:'XAF':''}}</td>
+            <td style="text-align: right">{{remise(vente) | currency:'XAF':''}} </td>
+            <td style="text-align: right">
+                <b>
+                    {{total(vente.ventesArticles) - remise(vente) | currency:'XAF':'' }}
+                </b>
+            </td>
+            <td style="text-align: right">
+                <b>
+                    {{sommePercue(vente) | currency:'XAF':'' }}
+                </b>
+            </td>
+        </tr>
+    </tbody>
+</table>

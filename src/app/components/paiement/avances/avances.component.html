@@ -1,0 +1,67 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 20px;">
+        <div class="col-6">
+            <h4>Créances en cours</h4>
+        </div>
+        <div class="col-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link btn-light" routerLink="/ventes/edit">
+                        <span style="margin-right: 5px; display: inline-block; ">
+                            <fa-icon [icon]="faShoppingCart"></fa-icon>
+                        </span>
+                        <sup style="margin-left: 0px;">
+                            <fa-icon [icon]="faPlus"></fa-icon>
+                        </sup>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="marginBottomOnMobile">
+            <form [formGroup]="rechercheForm" (ngSubmit)="onSubmitForm()">
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Date début
+                                </span>
+                            </div>
+                            <input placeholder="Date début" type="date" formControlName="debut" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Date fin
+                                </span>
+                            </div>
+                            <input placeholder="Date fin" type="date" formControlName="fin" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 marginBottomOnMobile">
+                        <button type="submit" [disabled]="rechercheForm.invalid" class="btn btn-primary btn-block">
+                            Rechercher
+                        </button>
+                    </div>
+                    <div class="col-lg-2 marginBottomOnMobile">
+                        <a (click)="reinit()" style="color:#fff" class="btn btn-primary btn-block">
+                            Réinitialiser
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <app-stats-ventes [ventes]="VENTES"></app-stats-ventes>
+
+
+    <app-table-ventes [ventes]="VENTES"></app-table-ventes>
+</div>

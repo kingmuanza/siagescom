@@ -1,0 +1,227 @@
+<div *ngIf="!vente">
+    <div>
+        <h4>
+            {{vente ? vente.reference: "Nouvelle vente"}}
+        </h4>
+        <div class="alert alert-primary" role="alert" *ngIf="promotion">
+            Une promotion est en cours actuellement, une remise de
+            <b>{{promotion.pourcentageRemise}}%</b>
+            sera accordée sur tous les articles
+        </div>
+        <div class="alert alert-primary" role="alert" *ngIf="utilisateur">
+            Vous ne pouvez accorder une remise au-delà de
+            <b>{{utilisateur.pourcentageRemise}}%</b>
+        </div>
+    </div>
+    <form [formGroup]="vaForm" (ngSubmit)="onSubmitForm()">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            <fa-icon [icon]="faSearch"></fa-icon>
+                        </span>
+                    </div>
+                    <input type="text" placeholder="Rechercher un article" formControlName="rechercher" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            Article
+                        </span>
+                    </div>
+                    <select type="email" formControlName="article" class="form-control">
+                        <ng-container *ngFor="let entree of entrees">
+                            <option *ngIf="entree.quantiteActuelle>0" [ngValue]="entree">
+                                {{setLibelleToNLength(entree.article.libelle)}}
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                {{entree.quantiteActuelle}}
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                {{entree.date.toDate() | date:'yyyy-MM-dd'}}
+                            </option>
+                        </ng-container>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                            Qté
+                        </span>
+                    </div>
+                    <input type="number" formControlName="quantite" class="form-control">
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <button type="submit" style="width: 100%" [disabled]="vaForm.invalid || !quantiteRaisonnable" class="btn btn-primary">
+                    <fa-icon *ngIf="!mobile" [icon]="faPlus"></fa-icon>
+                    <span *ngIf="mobile">Ajouter</span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div style="margin-top: 10px;">
+
+        <table [ngClass]="{'table row-border hover': true, 'table-responsive':mobile}" style="border: 2px solid #444">
+            <thead>
+                <tr>
+                    <th>Réf.</th>
+                    <th>Article</th>
+                    <th>P.U.</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let va of ventesArticles">
+                    <td>{{va.entree.article.ref |  uppercase}}</td>
+                    <td>
+                        <div>
+                            {{va.entree.article.libelle}}
+                        </div>
+                        <div style="margin-top: -5px">
+                            <small>
+                                Stock du {{va.entree.date.toDate() | date:'yyyy-MM-dd'}}
+                            </small>
+                        </div>
+                    </td>
+                    <td>{{va.entree.prixVenteUnitaire | currency:'XAF':''}}</td>
+                    <td>{{va.quantite}}</td>
+                    <td>{{prix(va) | currency:'XAF':''}}</td>
+                    <td>
+                        <button class="btn btn-warning" (click)="retirer(va)">
+                            Retirer
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4">Total</th>
+                    <th>{{total(ventesArticles)}}</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Remise</label>
+                <input type="number" [(ngModel)]="remise" (keyup)="calcul()" [ngModelOptions]="{standalone: true}"
+                    class="form-control">
+                <small class="form-text text-muted">
+                    Montant max de remise : {{montantRemiseMax(ventesArticles) | currency:'XAF':''}}
+                </small>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Net à payer</label>
+                <input readonly type="number" [(ngModel)]="net" [ngModelOptions]="{standalone: true}"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Montant perçu</label>
+                <input type="number" [(ngModel)]="percu" (keyup)="calculResteAPayer()"
+                    [ngModelOptions]="{standalone: true}" class="form-control">
+                <small class="form-text text-muted">
+                    Reste à payer : {{net - percu | currency:'XAF':''}}
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <hr style="margin-top: -5px; background-color: #444; height: 2px;">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <fa-icon [icon]="faSearch"></fa-icon>
+                    </span>
+                </div>
+                <input [(ngModel)]="rechercherNom" placeholder="Rechercher client" (keyup)="rechercherClient()" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="col-lg-8 col-9">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        Client
+                    </span>
+                </div>
+                <select [(ngModel)]="client" class="form-control">
+                    <option *ngFor="let client of clients" [ngValue]="client">
+                        {{client.nomComplet}}
+                        -
+                        {{client.tel}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-1 col-3">
+            <button style="width: 100%" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <button (click)="onRemiseForm()" [disabled]="montantRemiseMax(ventesArticles)<remise || ventesArticles.length<1"
+            class="btn btn-primary terminer">
+            Terminer
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nouveau client</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form [formGroup]="clientForm" (ngSubmit)="onSubmitClientForm()">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nom du client</label>
+                                <input formControlName="nomComplet" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Code du client</label>
+                                <input readonly formControlName="code" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Téléphone</label>
+                                <input formControlName="tel" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input formControlName="mail" class="form-control">
+                            </div>
+                            <button type="submit" [disabled]="clientForm.invalid"
+                                class="btn btn-primary">Enregistrer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="row animated slideInDown" style="margin-top: 20px;">
+    <div class="col-lg-6">
+        <h4>
+            {{utilisateur ? utilisateur.nom : "Aucun nom"}}
+        </h4>
+        <h6 class="text-primary">
+            {{utilisateur ? utilisateur.login : "Aucun utilisateur"}}
+        </h6>
+
+    </div>
+    <div class="col-lg-6">
+        <ul class="nav justify-content-end nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" (click)="edit(utilisateur)">Modifier le profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/utilisateurs">Revenir aux utilisateur</a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<div *ngIf="utilisateur" class="row" style="margin-top: 20px;">
+    <div class="col-lg-12">
+        <div class="" style="margin-top: 0px; margin-bottom: 10px;">
+            <h6>Autorisations</h6>
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item" *ngFor="let autorisation of utilisateur.autorisations">
+                    {{autorisation.libelle}}
+                </li>
+            </ul>
+        </div>
+        <app-stats-ventes [ventes]="ventes"></app-stats-ventes>
+        <div style="margin-top: 20px;">
+            <h6 style="margin-bottom: 20px;">Historique de ventes</h6>
+            <app-table-ventes [ventes]="ventes"></app-table-ventes>
+        </div>
+
+    </div>
+</div>

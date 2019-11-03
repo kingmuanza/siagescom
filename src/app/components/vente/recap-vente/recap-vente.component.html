@@ -1,0 +1,122 @@
+<div style="margin-top: 40px; text-align: right">
+    <button class="btn btn-link" (click)="viewVente(vente)">
+        Retour
+    </button>
+</div>
+<div id="capture" style="border: 2px solid #aaa; padding:20px; background-color: #fcfcfc">
+    <div style="margin-top: 20px;" id="print-section">
+        <div class="row">
+            <div class="col-12">
+                <h6 style="float: right">
+                    Date : {{getDate(vente) | date:'dd/MM/yyyy'}}
+                </h6>
+                <h4>
+                    {{entreprise.nom  | uppercase}}
+                </h4>
+                <h6 style="margin-top: -10px">
+                    <div *ngIf="entreprise.contribuable">
+                        {{entreprise.contribuable}}
+                    </div>
+                    <div>
+                        {{entreprise.addresse}}
+                    </div>
+                    <div>
+                        Tel : {{entreprise.tel}}
+                    </div>
+                    <div>
+                        BP : {{entreprise.bp}}
+                    </div>
+                </h6>
+
+            </div>
+            <div class="col-12">
+                <h5 style="text-align: right;">
+                    <div>
+                        {{getDate(vente) | date:'dd/MM/yyyy'}}
+                    </div>
+                    <div *ngIf="vente.client">
+                        {{vente.client.nomComplet}}
+                    </div>
+                    <!--
+
+                    <span *ngIf="!isDate(vente.date)">
+                        {{vente.date.toDate() | date:'dd/MM/yyyy'}}
+                    </span>
+                -->
+                </h5>
+                <h4 style="text-align: center; padding: 5px; border: 1px solid black;">
+                    Facture : {{vente.reference | uppercase}}
+                </h4>
+            </div>
+        </div>
+
+        <div>
+
+
+
+        </div>
+
+        <table class="" style="width: 100%; margin-top: 40px; border: 0px solid black;">
+            <thead style="border: 0px solid black;">
+                <tr>
+                    <th style="text-align: left">Réf.</th>
+                    <th style="text-align: left">Article</th>
+                    <th style="text-align: right">P.U.</th>
+                    <th style="text-align: right">Qté</th>
+                    <th style="text-align: right">Total</th>
+                </tr>
+            </thead>
+
+            <tbody style="border: 0px solid black;">
+                <tr *ngFor="let ligne of venteRecap.lignes" style="">
+                    <td style="">{{ligne.article.ref |  uppercase }}</td>
+                    <td style="">
+                        <div>
+                            {{ligne.article.libelle}}
+                        </div>
+                    </td>
+                    <td style="text-align: right">{{ligne.prixTotal / ligne.quantite | currency:'XAF':''}}</td>
+                    <td style="text-align: right">{{ligne.quantite}}</td>
+                    <td style="text-align: right">{{ligne.prixTotal | currency:'XAF':''}}</td>
+                </tr>
+            </tbody>
+            <tfoot style="border: 0px solid black;">
+                <tr style="text-align: left">
+                    <th colspan="4">Total</th>
+                    <th style="text-align: right">{{total(vente.ventesArticles) | currency:'XAF':''}}</th>
+
+                </tr>
+                <tr style="text-align: left">
+                    <th colspan="4">Remise</th>
+                    <th style="text-align: right">- {{remise() | currency:'XAF':''}}</th>
+
+                </tr>
+                <tr style="text-align: left">
+                    <th colspan="4">Net à payer</th>
+                    <th style="text-align: right">{{total(vente.ventesArticles) - remise() | currency:'XAF':''}}</th>
+
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 40px;">
+            <div>
+                Arrétée la présente facture à la somme de
+                {{totalEnLettres(total(vente.ventesArticles) - remise())}}
+                Francs CFA
+            </div>
+        </div>
+        <div style="margin-top: 0px;">
+
+        </div>
+    </div>
+</div>
+<div style="margin-top: 40px;">
+    <button styleSheetFile="assets/css/bootstrap.min.css" class="btn btn-primary" printTitle="vendezfacile.fr"
+        printSectionId="print-section" ngxPrint>
+        Imprimer la facture
+    </button>
+    <button class="btn btn-success" (click)="toImage()" style="margin-left: 10px;">
+        Télécharger la facture
+    </button>
+</div>

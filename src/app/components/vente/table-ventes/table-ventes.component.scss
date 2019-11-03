@@ -1,0 +1,23 @@
+tr {
+    cursor: pointer;
+}
+
+.error {
+    background-color: rgba($color: red, $alpha: 0.2);
+}
+
+.error:hover {
+    background-color: rgba($color: red, $alpha: 0.4);
+}
+
+.dataTables_filter{
+    width: 400px!important;
+    display: inline-block;
+}
+
+.borderBottomTable {
+    border-bottom: 2px solid #ddd!important;
+}
+.borderTopTable {
+    border-top: 2px solid #ddd!important;
+}

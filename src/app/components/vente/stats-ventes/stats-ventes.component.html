@@ -1,0 +1,69 @@
+<div *ngIf="ventes" class="row animated slideInDown"
+    style="text-align: center; color:#fff; margin-bottom: 10px; margin-top:0px;">
+    <div class="col-lg-3">
+        <div class="app-bg-bleu">
+            <div class="effet-vague2">
+                <div class="app-bg-bleu">
+                    <div style="padding: 20px;">
+                        <h2>
+                            {{TOTAL | currency:'XAF':''}}
+                        </h2>
+                        <div style="margin-top: -10px">
+                            <small *ngIf="ventes.length>1">Total des ventes</small>
+                            <small *ngIf="ventes.length<2">Total</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="app-bg-vert">
+            <div class="effet-vague">
+                <div class="app-bg-vert">
+                    <div style="padding: 20px;">
+                        <h2>
+                            {{TOTAL_ARTICLES}}
+                        </h2>
+                        <div style="margin-top: -10px">
+                            <small>Articles vendus</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="app-bg-orange">
+            <div class="effet-vague2">
+                <div class="app-bg-orange">
+                    <div style="padding: 20px;">
+                        <h2>
+                            {{REMISES | currency:'XAF':''}}
+                        </h2>
+                        <div style="margin-top: -10px">
+                            <small *ngIf="ventes.length>1">Total des remises</small>
+                            <small *ngIf="ventes.length<2">Remise</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="app-bg-red">
+            <div class="effet-vague">
+                <div class="app-bg-red">
+                    <div style="padding: 20px;">
+                        <h2>
+                            {{RESTE_A_PAYER | currency:'XAF':''}}
+                        </h2>
+                        <div style="margin-top: -10px">
+                            <small>Reste à payer</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

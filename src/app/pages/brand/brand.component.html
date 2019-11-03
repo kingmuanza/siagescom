@@ -1,0 +1,155 @@
+<div style="width: 100vw">
+    <div class="row largeur">
+        <div class="col-lg-6 background" style="height: 105vh; padding: 0; margin: 0; ">
+            <div class="box_contenu" style="height: 105vh; background-color: rgba(0,0,0,0.7);">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="animated slideInLeft" style="color: white;">
+                            <span class="titre" style="">
+                                Vendez Facile
+                            </span>
+                        </h1>
+                    </div>
+                </div>
+                <p class="lead animated slideInLeft" style="color: #fafafa;">
+                    <span style="font-size: 1.2em">
+                        Votre logiciel de vente simple et facile d'utilisation partout avec vous.
+                    </span>
+                </p>
+                <div id="avantages" class="lead" style="font-size: 2.5em; color: #fafafa; margin-top: 30px;">
+                    <div style="height: 8vh; overflow: hidden; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="animated fadeIn slideInUp delay-1s">
+                            <span style="width: 70px;; display: inline-block; ">
+                                <fa-icon [icon]="faMobile"></fa-icon>
+                            </span>
+                            <b>
+                                Mobilité
+                            </b>
+                        </div>
+                    </div>
+                    <div style="height: 8vh; overflow: hidden; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="animated fadeIn slideInUp delay-2s">
+                            <span style="width: 70px;; display: inline-block; ">
+                                <fa-icon [icon]="faList"></fa-icon>
+                            </span>
+                            <b>
+                                Facturation
+                            </b>
+                        </div>
+                    </div>
+                    <div style="height: 8vh; overflow: hidden; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="animated fadeIn slideInUp delay-3s">
+                            <span style="width: 70px;; display: inline-block; ">
+                                <fa-icon [icon]="faUsers"></fa-icon>
+                            </span>
+                            <b>
+                                Collaboration
+                            </b>
+                        </div>
+                    </div>
+                    <div style="height: 8vh; overflow: hidden; margin-top: 10px; margin-bottom: 10px;">
+                        <div class="animated fadeIn slideInUp delay-4s">
+                            <span style="width: 70px;; display: inline-block; ">
+                                <fa-icon [icon]="faCalendar"></fa-icon>
+                            </span>
+                            <b>
+                                Promotions
+                            </b>
+                        </div>
+                    </div>
+
+                </div>
+                <p class="lead video" style="color: #fafafa; margin-top: 50px;">
+                    <a target="_blank" href="https://youtu.be/ZDRFlRPHcvw"
+                        style="cursor: pointer; color: #fff!important">
+                        Voir la vidéo de présentation
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-6 heightVariable" style="padding: 0; margin: 0; ">
+            <div class="back_singe animated slideInUp delay-1s"
+                style="height: 100vh; width: 100%;  padding: 0; margin: 0;">
+
+                <div
+                    style=" padding: 0; margin: 0;height: 100vh; width: 100%; background-color: rgba(255, 255, 255, 0.995)">
+                    <div style="padding : 30px; padding-top: 20px; padding-right: 20px; padding-bottom: 0px;">
+                        <div class="row align" style="margin-bottom: -5px;">
+                            <div class="col-lg-2">
+                                <img class="animated bounce delay-2s logo" style="" src="../../../assets/img/singe.png">
+                            </div>
+                            <div class="col-lg-10 marginTop20">
+                                <div style="color: #444; position: absolute; bottom: 0; right: 20px;">
+                                    Vous possédez déjà un compte. Connectez-vous !
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <app-connexion></app-connexion>
+                    </div>
+                    <div class="grismobile" style="padding : 30px; padding-top: 0px; padding-right: 20px;">
+
+                        <div style="margin-top: 0px">
+                            <h2 class="w60pourcent">
+                                Profitez d'un essai gratuit de 30 jours
+                            </h2>
+                            <p class="minimobile lead text-justify">
+                                Découvrez toutes les fonctionnalités de notre application :
+                            </p>
+                            <form [formGroup]="mailForm" (ngSubmit)="onSubmitMailForm()">
+                                <div class="input-group mb-3">
+                                    <input formControlName="mail" type="text" class="form-control" placeholder="Votre adresse mail"
+                                        aria-label="Votre adresse mail">
+                                    <div class="input-group-append">
+                                        <button type="submit" [disabled]="mailForm.invalid" class="btn btn-primary">
+                                            J'en profite
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div style="position: absolute; bottom: 0; padding: 20px; padding-left: 30px; color: #000; opacity: 0.4;">
+                &copy; SIA TECHNOLOGY GROUP 2019. Tous droits réservés
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div class="sia" style="position: absolute; left:50%; bottom: 0; display: none;">
+    <div style="padding: 20px; padding-left: 20px; color: #000; opacity: 0.4;">
+        &copy; SIA TECHNOLOGY GROUP 2019. Tous droits réservés
+    </div>
+</div>
+<div class="animated slideInRight delay-2s hideOnMobile" style="position: absolute; right: 0; bottom: 80px;">
+    <div (click)="telechargerBrochure()"
+        style="padding: 20px; width: 25vw; color: white; text-align: center; cursor: pointer;" class="bg-success lead">
+        <span style="width: 30px;; display: inline-block; ">
+            <fa-icon [icon]="faDownload"></fa-icon>
+        </span>
+        Télécharger la brochure
+    </div>
+</div>
+
+<div class="modal fade" id="mailResultat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Essai Gratui
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        Message de réussite
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

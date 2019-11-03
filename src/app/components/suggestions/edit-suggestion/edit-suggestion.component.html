@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div>
+            <h4>
+                {{suggestion ? "Modifier la suggestion": "Nouvelle suggestion"}}
+            </h4>
+        </div>
+        <div class="alert alert-primary" role="alert">
+            Les suggestions sont anonymes
+        </div>
+        <form [formGroup]="suggestionForm" (ngSubmit)="modifier()">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Section concernée</label>
+                        <select formControlName="section" class="form-control">
+                            <ng-container *ngFor="let section of SECTIONS">
+                                <option [ngValue]="section">
+                                    {{section}}
+                                </option>
+                            </ng-container>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Commentaire</label>
+                        <textarea formControlName="commentaire" class="form-control">
+
+                </textarea>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button [disabled]="suggestionForm.invalid" class="btn btn-primary">
+                    Enregistrer
+                </button>
+
+            </div>
+        </form>
+        <div style="width: 100%">
+            <div style="text-align: right; margin-top: -40px;">
+                <button (click)="supprimerSuggestion(suggestion)" *ngIf="suggestion" class="btn btn-danger "
+                    style="margin-left: 0px;">
+                    Supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <img src=".../../../../../../assets/img/singe.png" style="width: 100%; opacity: 0.1;">
+            <h1 style="text-align: center">
+                <span style="font-size: 4.em; color: #ddd">
+                    Merci de nous aider à nous améliorer
+                </span>
+            </h1>
+    </div>
+</div>

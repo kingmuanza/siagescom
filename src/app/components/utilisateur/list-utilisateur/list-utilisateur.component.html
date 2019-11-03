@@ -1,0 +1,45 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 10px;">
+        <div class="col-6">
+            <h4>Utilisateurs</h4>
+        </div>
+        <div class="col-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="/utilisateurs/edit">
+                        +
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="alert alert-primary animated slideInDown" role="alert">
+        Toutes les personnes dans la liste ci dessous auront accès à l'application et aux données de votre entreprise
+    </div>
+
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Login</th>
+                <th>Remise</th>
+                <th>Autorisations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of utilisateurs" (click)="viewUtilisateur(u)">
+                <td>{{u.nom}}</td>
+                <td>{{u.login}}</td>
+                <td>{{u.pourcentageRemise}}</td>
+                <td>
+                    <span *ngFor="let autorisation of u.autorisations">
+                        {{autorisation.code}}
+                    </span>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</div>

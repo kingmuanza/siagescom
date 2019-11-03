@@ -1,0 +1,41 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 10px;">
+        <div class="col-6">
+            <h4>Articles</h4>
+        </div>
+        <div class="col-lg-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item link">
+                    <a class="nav-link" routerLink="/familles">
+                        Familles
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link active" routerLink="/articles/edit">
+                        +
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+        <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Libellé</th>
+                <th>Description</th>
+                <th>Famille</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of articles" (click)="viewArticle(a)">
+                <td>{{a.ref}}</td>
+                <td>{{a.libelle}}</td>
+                <td>{{a.description}}</td>
+                <td>{{a.famille.libelle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

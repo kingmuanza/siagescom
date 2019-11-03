@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-lg-6">
+        <h3 style="margin-top: 0px;">
+            {{article ? "Modifier les informations de l'article" : "Ajouter un article"}}
+        </h3>
+        <form [formGroup]="articleForm" (ngSubmit)="onSubmitForm()">
+            <div>
+
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Référence de l'article</label>
+                <input type="email" formControlName="ref" class="form-control">
+                <small class="form-text text-muted">
+                    Donnez une référence à l'article. Cette référence doit unique.
+                    Si vous n'en avez pas, laissez le champ vide.
+                    Une référence sera générée automatiquement
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nom de l'article</label>
+                <input type="email" formControlName="libelle" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <textarea formControlName="description" class="form-control">
+
+                </textarea>
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    Famille d'article <br>
+                    <small class="form-text text-muted">
+                        Ceci permet de classer l'article dans une catégorie
+                    </small>
+                </label>
+                <select [formControl]="articleForm.controls.famille" class="custom-select">
+                    <option *ngFor="let famille of familles; let i = index;" [ngValue]="famille">
+                        {{famille.libelle}}
+                    </option>
+                </select>
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+
+
+
+            <button type="submit" [disabled]="articleForm.invalid" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <div class="alert alert-primary" role="alert">
+            <h4 class="alert-heading">
+                Je veux remplir la quantité et le prix ?
+            </h4>
+            <p>
+                Afin de rendre plus souple l'application, les quantités et les prix de vente sont définies 
+                lors des entrées en stock / achats.
+            </p>
+            
+            <hr>
+            <p class="mb-0">
+                Pour plus d'informations, vous pouvez contacter un de nos collaborateurs au 696543495
+            </p>
+        </div>
+    </div>
+</div>

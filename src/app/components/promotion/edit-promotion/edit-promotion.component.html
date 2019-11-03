@@ -1,0 +1,50 @@
+<div>
+    <h4>
+        {{promotion ? "Modifier la promotion": "Nouvelle promotion"}}
+    </h4>
+</div>
+<form [formGroup]="promotionForm" (ngSubmit)="modifier()">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Date début</label>
+                <input type="date" formControlName="debut" class="form-control">
+
+                <small class="form-text text-muted">
+                    Date de début de la promotion
+                </small>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Date de fin</label>
+                <input type="date" formControlName="fin" class="form-control">
+                <small class="form-text text-muted">
+                    Date de fin de la promotion
+                </small>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Pourcentage</label>
+                <input type="number" formControlName="pourcentage" class="form-control">
+                <small class="form-text text-muted">
+                    Pourcentage de remise
+                </small>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button [disabled]="promotionForm.invalid" class="btn btn-primary">
+            Enregistrer
+        </button>
+
+    </div>
+</form>
+<div style="width: 100%">
+    <div style="text-align: right; margin-top: -40px;">
+        <button (click)="supprimerPromotion(promotion)" *ngIf="promotion" class="btn btn-danger " style="margin-left: 0px;">
+            Supprimer
+        </button>
+    </div>
+</div>

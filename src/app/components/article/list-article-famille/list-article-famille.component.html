@@ -1,0 +1,34 @@
+<div>
+    <div class="row animated slideInDown" style="margin-bottom: 10px;">
+        <div class="col-6">
+            <h4>Familles d'articles</h4>
+        </div>
+        <div class="col-6">
+            <ul class="nav justify-content-end nav-pills">
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link active" routerLink="/familles/edit">
+                        +
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+        <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Libellé</th>
+                <th>Famille Parente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let f of familles" (click)="viewFamilleArticle(f)">
+                <td>{{f.ref}}</td>
+                <td>{{f.libelle}}</td>
+                <td>{{f.parent.libelle}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

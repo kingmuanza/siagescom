@@ -1,0 +1,87 @@
+{
+    "type": "commerce_list",
+    "data": [
+        {
+            "id": "108",
+            "name": "Ô Petit Club ",
+            "description": "<h1><small><strong>Restaurant africain</strong> - Puteaux</small></h1> Spécialités : Afrique de l'Ouest Prix Moyen : 20 euros Ville : Puteaux (Hauts de Seine) Station(s) : La Défense (RER A, Ligne 1, Ligne L et U) , Puteaux (Ligne L et U).",
+            "tarif": "15 euros",
+            "lien": "www.opetitclub.fr",
+            "checked": "1",
+            "note_usr_avg": "4.5",
+            "code_com": "CMCUcW",
+            "espace_com": "",
+            "type_com": "",
+            "schedule": {
+                "today": "12h00 - 14h45 | 19h00 -22h00",
+                "details": {
+                    "Mardi": "12h00 - 14h45 | 19h00 -21h45",
+                    "Mercredi": "12h00 - 14h45 | 19h00 -21h45",
+                    "Jeudi": "12h00 - 14h45 | 19h00 -21h45",
+                    "Vendredi": "12h00 - 14h45 | 19h00 -22h00",
+                    "Samedi": "12h00 - 14h45 | 19h00 -22h00"
+                }
+            }
+        },
+        {
+            "id": "193",
+            "name": "Les Saveurs du Monde",
+            "description": "Bienvenue au bistrot africain situé en plein cœur de Paris ! Prêts, partez... Découvrez ! Sur place ou à emporter :).",
+            "tarif": "10 euros",
+            "lien": "https: //www.facebook.com/pg/saveursdumondeparis10/about/?ref=page_internal",
+            "checked": "0",
+            "note_usr_avg": "4.5",
+            "code_com": "CMtmQd",
+            "espace_com": "",
+            "type_com": "",
+            "schedule": {
+                "today": "Horaire inconnu",
+                "details": {
+                    "7j/7": "Horaire inconnu"
+                }
+            }
+        },
+        {
+            "id": "184",
+            "name": "La Casa di Mansa",
+            "description": "<h1><small><strong>Restaurant africain</strong> - Saint Gratien</small></h1> Gastronomie exotique. Partages ton avis avec nous",
+            "tarif": "Inconnu",
+            "lien": "none",
+            "checked": "0",
+            "note_usr_avg": "4.4",
+            "code_com": "CMC8qu",
+            "espace_com": "",
+            "type_com": "",
+            "schedule": {
+                "today": "11h00 - 15h00 | 17h00 -23h00",
+                "details": {
+                    "Samedi": "11h00 - 15h00 | 17h00 -23h00",
+                    "Du lundi au vendredi": "11h00 - 15h00 | 17h00 -23h00"
+                }
+            }
+        },
+        {
+            "id": "170",
+            "name": "Le nouveau Paris Dakar",
+            "description": "<h1><small><strong>Restaurant Sénégalais</strong> - Paris 9e</small></h1>Spécialités Sénégalaises dans un cadre chaleureux et coloré dans le 9ème arrondissement de Paris.",
+            "tarif": "25 euros",
+            "lien": "none",
+            "checked": "0",
+            "note_usr_avg": "4.2",
+            "code_com": "CMtwV0",
+            "espace_com": "",
+            "type_com": "",
+            "schedule": {
+                "today": "11h30 -15h00 | A partir de 19h00",
+                "details": {
+                    "Lundi": "11h30 -15h00 | A partir de 19h00",
+                    "Mardi": "11h30 -15h00 | A partir de 19h00",
+                    "Mercredi": "11h30 -15h00 | A partir de 19h00",
+                    "Jeudi": "11h30 -15h00 | A partir de 19h00",
+                    "Samedi": "11h30 -15h00 | A partir de 19h00",
+                    "Dimanche": "11h30 -15h00 | A partir de 19h00"
+                }
+            }
+        }
+    ]
+}

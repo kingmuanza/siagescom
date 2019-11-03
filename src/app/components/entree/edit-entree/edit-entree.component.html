@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div>
+            <h4>
+                {{achat ? "Modifier l'achat": "Nouvel achat"}}
+            </h4>
+        </div>
+        <form [formGroup]="achatForm" (ngSubmit)="modifier()">
+            <div class="">
+                <div class="">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Article</label>
+                        <select type="email" formControlName="article" class="form-control">
+                            <option disabled>
+                                Choissez un article
+                            </option>
+                            <option *ngFor="let article of articles; let i = index;" [ngValue]="article">
+                                {{article.libelle}}
+                            </option>
+                        </select>
+                        <small class="form-text text-muted">
+                            Si l'article n'est pas présent vous pouvez le créer en cliquant ici
+                        </small>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Prix unitaire d'achat</label>
+                        <input type="number" formControlName="prixAchat" class="form-control">
+                        <small class="form-text text-muted">
+
+                        </small>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Prix unitaire de vente</label>
+                        <input type="number" formControlName="prixVente" class="form-control">
+                        <small class="form-text text-muted">
+
+                        </small>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Quantité</label>
+                        <input type="number" formControlName="quantite" class="form-control">
+                        <small class="form-text text-muted">
+
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button [disabled]="achatForm.invalid" class="btn btn-primary">
+                    Enregistrer
+                </button>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <div style="width: 100%">
+            <div style="text-align: right; margin-top: 0px;">
+                <button (click)="supprimerAchat(achat)" *ngIf="achat" class="btn btn-danger " style="margin-left: 0px;">
+                    Supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-lg-6" style="margin-bottom: 20px;">
+        <h3 class="animated slideInDown" style="margin-top: 0px;">
+            Mon entreprise
+        </h3>
+        <form [formGroup]="entrerpriseForm" (ngSubmit)="onSubmitForm()">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nom de l'entreprise</label>
+                <input type="email" formControlName="nom" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Siège social</label>
+                <input type="email" formControlName="adresse" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Forme juridique</label>
+                <input type="email" formControlName="juridique" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Numéro de contribuable</label>
+                <input type="email" formControlName="contribuable" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Boite Postale</label>
+                <input type="email" formControlName="bp" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Numéros de téléphone</label>
+                <input type="email" formControlName="tel" class="form-control">
+                <small class="form-text text-muted">
+                    Vous pouvez séparer les numéros par un slash "/"
+                </small>
+            </div>
+            <div>
+                <button type="submit" [disabled]="entrerpriseForm.invalid" class="btn btn-primary onMobile100">
+                    Enregistrer
+                </button>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <div class="alert alert-primary" role="alert">
+            <h4 class="alert-heading">
+                Pourquoi dois-je enregistrer mon entreprise ?
+            </h4>
+            <p>
+                Les données de votre entreprise nous seront utiles pour :
+            </p>
+            <ul>
+                <li>
+                    Vous permettre d'ajouter des collaborateurs (03 maximum)
+                </li>
+                <li>
+                    D'imprimer des factures conformes
+                </li>
+                <li>
+                    De sauvegarder vos données de facon spécifiques
+                </li>
+            </ul>
+            <hr>
+            <p class="mb-0">
+                Pour plus d'informations, vous pouvez contacter un de nos collaborateurs au 696543495
+            </p>
+        </div>
+    </div>
+</div>

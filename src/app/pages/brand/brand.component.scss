@@ -1,0 +1,107 @@
+.background {
+    background-image: url('../../../assets/img/back.jpeg');
+    background-size: cover;
+}
+
+.back_singe {
+    background-image: url('../../../assets/img/singe.png');
+    background-size: cover;
+}
+
+#avantages div b {
+    color: #eee;
+}
+
+.box_contenu {
+    padding: 40px;
+    padding-left: 80px;
+    margin: 0
+}
+
+.titre {
+    font-size: 1.5em;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.largeur {
+    width: 100vw;
+}
+
+.video a {
+    font-size: 1.2em;
+}
+
+.logo {
+    width: 60px;
+}
+
+.align {
+    text-align: right;
+}
+
+.w60pourcent {
+    width: 60%
+}
+
+.heightVariable {
+    height: 100vh; 
+}
+
+@media only screen and (max-width: 500px) {
+    .box_contenu {
+        padding: 20px;
+        padding-left: 40px;
+        margin: 0
+    }
+
+    .titre {
+        font-size: 1.2em;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .largeur {
+        width: 105vw;
+    }
+
+    .video {
+        border: 2px solid #fafafa;
+        padding: 10px;
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+    .logo {
+        width: 25%;
+    }
+
+    .marginTop20 {
+        margin-top: 30px;
+    }
+
+    .align {
+        text-align: center;
+    }
+
+    .grismobile {
+        background-color: #eee;
+    }
+
+    .w60pourcent {
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .heightVariable {
+        height: 120vh; 
+    }
+
+    .minimobile {
+        font-size: 1.1em;
+    }
+
+    .hideOnMobile {
+        display: none
+    }
+}

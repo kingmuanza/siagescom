@@ -1,0 +1,143 @@
+<div style="font-size: 1.5em; font-weight: bold; margin-left: -1.5rem; margin-right: -1.5rem">
+
+    <div class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/dashboard">
+            <span class="icon">
+                <fa-icon [icon]="faChartBar"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Tableau de bord </span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div *ngIf="hasAutorisation('VENTE')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/ventes">
+            <span class="icon">
+                <fa-icon [icon]="faShoppingCart"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Ventes</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div *ngIf="hasAutorisation('VENTE')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/paiements">
+            <span class="icon">
+                <fa-icon [icon]="faMoneyBill"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Créances en cours</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div *ngIf="hasAutorisation('PROMOTION')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/promotions">
+            <span class="icon">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Promotions</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div  *ngIf="hasAutorisation('VENTE')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/clients">
+            <span class="icon">
+                <fa-icon [icon]="faUsers"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Clients</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div *ngIf="hasAutorisation('ACHAT')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/achats">
+            <span class="icon">
+                <fa-icon [icon]="faPeopleCarry"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Achats</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="suggestions">
+            <span class="icon">
+                <fa-icon [icon]="faComment"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Suggestions</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+
+    <div *ngIf="hasAutorisation('ARTICLE')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/articles">
+            <span class="icon">
+                <fa-icon [icon]="faFile"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Articles
+            </span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+    <div *ngIf="hasAutorisation('UTILISATEURS')" class="nav-item">
+        <a routerLinkActive="active" class="nav-link" routerLink="/utilisateurs">
+            <span class="icon">
+                <fa-icon [icon]="faUsersCog"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Utilisateurs</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link" (click)="profil()" >
+            <span class="icon">
+                <fa-icon [icon]="faUser"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Mon profil</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a routerLink="/entreprise" class="nav-link">
+            <span class="icon">
+                <fa-icon [icon]="faStamp"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Mon entreprise</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link" (click)="deconnexion()">
+            <span class="icon">
+                <fa-icon [icon]="faSignOutAlt"></fa-icon>
+            </span>
+            <span style="margin-left: 0px;">Déconnexion</span>
+            <span style="float: right; color: #888">
+                <fa-icon [icon]="faChevronRight"></fa-icon>
+            </span>
+        </a>
+    </div>
+</div>

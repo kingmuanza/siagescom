@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-lg-6">
+        <h3 style="margin-top: 0px;">
+            {{utilisateur ? "Modifier les informations" : "Ajouter un utilisateur"}}
+        </h3>
+        <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmitForm()">
+            <div>
+
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nom complet</label>
+                <input type="email" formControlName="nom" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div *ngIf="!utilisateur" class="form-group">
+                <label for="exampleInputEmail1">Adresse mail</label>
+                <input type="email" formControlName="login" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div *ngIf="!utilisateur" class="form-group">
+                <label for="exampleInputEmail1">Mot de passe</label>
+                <input type="password" autocomplete="new-password" formControlName="passe" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div *ngIf="!utilisateur" class="form-group">
+                <label for="exampleInputEmail1">Confirmer le mot de passe</label>
+                <input type="password" autocomplete="new-password" formControlName="confirm" class="form-control">
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Pourcentage maximal de remise accordable</label>
+                <input type="number" formControlName="remise" class="form-control">
+                <small class="form-text text-muted">
+                    Un nombre entre 0 et 100
+                </small>
+            </div>
+            <div class="form-group">
+                <label>
+                    Autorisations <br>
+                    <small class="form-text text-muted">
+                        Appuyer sur la touche SHIFT pour sélectionner plusieurs autorisations
+                    </small>
+                </label>
+                <select [formControl]="utilisateurForm.controls.autorisations" class="custom-select" multiple>
+                    <option *ngFor="let autorisation of autorisations; let i = index;" [ngValue]="autorisation">
+                        {{autorisation.libelle}}
+                    </option>
+                </select>
+                <small class="form-text text-muted">
+
+                </small>
+            </div>
+
+
+
+            <button type="submit" [disabled]="utilisateurForm.invalid" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <div class="alert alert-primary" role="alert">
+            <h4 class="alert-heading">
+                Pourquoi dois-je enregistrer les informations des utilisateurs ?
+            </h4>
+            <p>
+                Les informations des utilisateurs sont utiles pour l'utilisation de l'application.
+                Vous pouvez ici définir :
+            </p>
+            <ul>
+                <li>
+                    Les fonctionnalités auxquelles ils auront accès
+                </li>
+                <li>
+                    Le pourcentage de remise maximal qu'ils pourront appliquer
+                </li>
+
+            </ul>
+            <hr>
+            <p class="mb-0">
+                Pour plus d'informations, vous pouvez contacter un de nos collaborateurs au 696543495
+            </p>
+        </div>
+    </div>
+</div>
