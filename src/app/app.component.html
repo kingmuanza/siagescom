@@ -19,7 +19,7 @@
     </a>
     <ul class="navbar-nav px-3 hideOnMobile" *ngIf="utilisateur">
         <li class="nav-item text-nowrap" style="cursor: pointer; color: #fff!important">
-            <a class="nav-link" (click)="nouvelleVente()" style="cursor: pointer; color: #fff!important">
+            <a title="Nouvelle vente" class="nav-link" (click)="nouvelleVente()" style="cursor: pointer; color: #fff!important">
                 <span style="margin-right: 5px; display: inline-block; ">
                     <fa-icon [icon]="faShoppingCart"></fa-icon>
                 </span>
@@ -32,7 +32,7 @@
 
     <ul class="navbar-nav px-3 hideOnMobile" *ngIf="utilisateur">
         <li class="nav-item text-nowrap" style="cursor: pointer; color: #fff!important">
-            <a class="nav-link" (click)="nouveauClient()" style="cursor: pointer; color: #fff!important">
+            <a title="Nouvel utilisateur" class="nav-link" (click)="nouveauClient()" style="cursor: pointer; color: #fff!important">
                 <span style="margin-right: 5px; display: inline-block; ">
                     <fa-icon [icon]="faUser"></fa-icon>
                 </span>
@@ -44,7 +44,7 @@
     </ul>
     <ul class="navbar-nav px-3 hideOnMobile" *ngIf="utilisateur">
         <li class="nav-item text-nowrap" style="cursor: pointer; color: #fff!important">
-            <a class="nav-link" (click)="nouvelleSuggestion()" style="cursor: pointer; color: #fff!important">
+            <a title="Faites-nous une suggestion" class="nav-link" (click)="nouvelleSuggestion()" style="cursor: pointer; color: #fff!important">
                 <span style="margin-right: 5px; display: inline-block; ">
                     <fa-icon [icon]="faComment"></fa-icon>
                 </span>
@@ -84,7 +84,7 @@
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="dashboard">
+                            <a title="Tableau de bord" routerLinkActive="active" class="nav-link" routerLink="dashboard">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faChartBar"></fa-icon>
                                 </span>
@@ -94,7 +94,7 @@
                         </li>
 
                         <li *ngIf="hasAutorisation('VENTE')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="ventes">
+                            <a title="Liste des ventes" routerLinkActive="active" class="nav-link" routerLink="ventes">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faShoppingCart"></fa-icon>
                                 </span>
@@ -103,7 +103,7 @@
                             </a>
                         </li>
                         <li *ngIf="hasAutorisation('VENTE')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="avances">
+                            <a title="Créances en cours" routerLinkActive="active" class="nav-link" routerLink="avances">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faMoneyBillWave"></fa-icon>
                                 </span>
@@ -112,7 +112,7 @@
                             </a>
                         </li>
                         <li *ngIf="hasAutorisation('VENTE')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="paiements">
+                            <a title="Paiements" routerLinkActive="active" class="nav-link" routerLink="paiements">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faMoneyBill"></fa-icon>
                                 </span>
@@ -121,7 +121,7 @@
                             </a>
                         </li>
                         <li *ngIf="hasAutorisation('PROMOTION')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="promotions">
+                            <a title="Promotions" routerLinkActive="active" class="nav-link" routerLink="promotions">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faCalendar"></fa-icon>
                                 </span>
@@ -130,7 +130,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="clients">
+                            <a title="Clients" routerLinkActive="active" class="nav-link" routerLink="clients">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faUsers"></fa-icon>
                                 </span>
@@ -139,7 +139,7 @@
                         </li>
 
                         <li *ngIf="hasAutorisation('ACHAT')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="achats">
+                            <a title="Achats" routerLinkActive="active" class="nav-link" routerLink="achats">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faPeopleCarry"></fa-icon>
                                 </span>
@@ -147,7 +147,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="suggestions">
+                            <a title="Suggestions" routerLinkActive="active" class="nav-link" routerLink="suggestions">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faComment"></fa-icon>
                                 </span>
@@ -194,16 +194,17 @@
                         </li>
                         -->
                         <li *ngIf="hasAutorisation('ARTICLE')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="articles">
+                            <a title="Liste des articles" routerLinkActive="active" class="nav-link" routerLink="articles">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faFile"></fa-icon>
                                 </span>
-                                <span style="margin-left: 0px;">Articles
+                                <span style="margin-left: 0px;">
+                                    Articles
                                 </span>
                             </a>
                         </li>
                         <li *ngIf="hasAutorisation('UTILISATEURS')" class="nav-item">
-                            <a routerLinkActive="active" class="nav-link" routerLink="utilisateurs">
+                            <a title="Utilisateurs" routerLinkActive="active" class="nav-link" routerLink="utilisateurs">
                                 <span style="width: 30px; display: inline-block; ">
                                     <fa-icon [icon]="faUsersCog"></fa-icon>
                                 </span>

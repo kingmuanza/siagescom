@@ -49,10 +49,12 @@
 
                 </small>
             </div>
-
-
-
-            <button type="submit" [disabled]="articleForm.invalid" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" [disabled]="articleForm.invalid" class="btn btn-primary">
+                Enregistrer
+            </button>
+            <a class="btn btn-danger" (click)="supprimerArticle(article)" style="margin-left: 10px; color:#fff;">
+                Supprimer
+            </a>
         </form>
     </div>
     <div class="col-lg-6">

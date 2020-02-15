@@ -10,6 +10,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faPeopleCarry, faBars, faCog, faSignOutAlt, faComment } from '@fortawesome/free-solid-svg-icons';
 import { faHistory, faUsersCog, faCalendar, faUser, faPlus, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { Connexion } from './models/connexion.model';
 
 @Component({
   selector: 'app-root',
@@ -69,6 +70,29 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.utilisateurService.emitUtilisateur();
     this.utilisateurService.emitEntreprise();
+    const utilisateurString = localStorage.getItem('SIAGESCOM_USER');
+    if (utilisateurString) {
+      this.utilisateur = JSON.parse(utilisateurString);
+      this.autoConnexion(this.utilisateur.login, this.utilisateur.passe);
+      this.router.navigate(['ventes']);
+    }
+  }
+
+  autoConnexion(login, passe) {
+    const connexion = new Connexion(
+      login,
+      passe,
+      false
+    );
+    console.log(connexion);
+    this.utilisateurService.onConnexion(connexion).then((utilisateur: Utilisateur) => {
+      this.utilisateurService.emitUtilisateur();
+      this.utilisateurService.emitEntreprise();
+      this.router.navigate(['ventes']);
+    }, (error) => {
+      console.log('login ou mot de passe incorrect');
+    });
+    // this.router.navigate(['/users']);
   }
 
   ngOnDestroy(): void {

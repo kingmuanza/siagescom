@@ -31,6 +31,10 @@ export class BrandComponent implements OnInit {
     // this.envoyerMail();
   }
 
+  autoConnexion() {
+
+  }
+
   envoyerMail() {
     console.log('Envoi du mail !!');
     /*

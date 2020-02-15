@@ -6,6 +6,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as uuid from 'uuid';
 import { Utilisateur } from 'src/app/models/utilisateur.model';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
+import { ArticleFamille } from 'src/app/models/article.famille.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-article',
@@ -16,13 +18,19 @@ export class EditArticleComponent implements OnInit {
 
   article: Article;
   articleForm: FormGroup;
-  familles = [];
+  familles: ArticleFamille[];
+  famillesSubscription: Subscription;
 
   // tslint:disable-next-line:max-line-length
   constructor(private us: UtilisateurService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private articleService: StockService) { }
 
   ngOnInit() {
     this.initForm();
+    this.famillesSubscription = this.articleService.getAllFamilles().subscribe((familles) => {
+      this.familles = familles;
+      console.log('this.familles');
+      console.log(this.familles);
+    });
     this.route.paramMap.subscribe(ParamsAsMap => {
       const id = ParamsAsMap.get('id');
       this.articleService.getArticle(id).then((article) => {
@@ -65,8 +73,15 @@ export class EditArticleComponent implements OnInit {
     this.articleService.saveArticle(article).then((a) => {
       this.router.navigate(['articles', 'view', article.id]);
     });
+  }
 
-
+  supprimerArticle(article) {
+    const oui = confirm('Etes-vous sûr de supprimer l\'article ?');
+    if (oui) {
+      this.articleService.deleteArticle(article).then((a) => {
+        this.router.navigate(['articles']);
+      });
+    }
   }
 
 
