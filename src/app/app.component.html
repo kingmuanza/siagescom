@@ -203,6 +203,16 @@
                                 </span>
                             </a>
                         </li>
+                        <li *ngIf="hasAutorisation('ARTICLE')" class="nav-item">
+                            <a title="Liste des familles d'articles" routerLinkActive="active" class="nav-link" routerLink="familles">
+                                <span style="width: 30px; display: inline-block; ">
+                                    <fa-icon [icon]="faFile"></fa-icon>
+                                </span>
+                                <span style="margin-left: 0px;">
+                                    Familles d'articles
+                                </span>
+                            </a>
+                        </li>
                         <li *ngIf="hasAutorisation('UTILISATEURS')" class="nav-item">
                             <a title="Utilisateurs" routerLinkActive="active" class="nav-link" routerLink="utilisateurs">
                                 <span style="width: 30px; display: inline-block; ">

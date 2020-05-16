@@ -33,10 +33,20 @@ export class ListArticleFamilleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.famillesSubscription = this.articleService.getAllFamilles().subscribe((familles) => {
-      this.familles = familles;
-      this.dtTrigger.next();
+      this.familles = new Array<ArticleFamille>();
       console.log('this.familles');
       console.log(this.familles);
+      const parents = familles.filter((famille) => {
+        return famille.parent ? false : true;
+      });
+      parents.forEach((parent) => {
+        this.familles.push(parent);
+        familles.forEach((famille) => {
+          if (famille.parent && famille.parent.id === parent.id) {
+            this.familles.push(famille);
+          }
+        });
+      });
     });
   }
 

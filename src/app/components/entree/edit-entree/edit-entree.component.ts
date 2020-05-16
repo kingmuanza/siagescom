@@ -21,7 +21,12 @@ export class EditEntreeComponent implements OnInit {
   articlesSubscription = new Subscription();
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: ActivatedRoute, private us: UtilisateurService, private router: Router, private formBuilder: FormBuilder, private articleService: StockService, private achatService: AchatService) { }
+  constructor(
+    private route: ActivatedRoute, private us: UtilisateurService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private articleService: StockService,
+    private achatService: AchatService) { }
 
   ngOnInit() {
     this.initForm();

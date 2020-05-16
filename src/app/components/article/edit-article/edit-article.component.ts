@@ -20,6 +20,7 @@ export class EditArticleComponent implements OnInit {
   articleForm: FormGroup;
   familles: ArticleFamille[];
   famillesSubscription: Subscription;
+  inactif = false;
 
   // tslint:disable-next-line:max-line-length
   constructor(private us: UtilisateurService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private articleService: StockService) { }
@@ -27,9 +28,20 @@ export class EditArticleComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.famillesSubscription = this.articleService.getAllFamilles().subscribe((familles) => {
-      this.familles = familles;
+      this.familles = new Array<ArticleFamille>();
       console.log('this.familles');
       console.log(this.familles);
+      const parents = familles.filter((famille) => {
+        return famille.parent ? false : true;
+      });
+      parents.forEach((parent) => {
+        this.familles.push(parent);
+        familles.forEach((famille) => {
+          if (famille.parent && famille.parent.id === parent.id) {
+            this.familles.push(famille);
+          }
+        });
+      });
     });
     this.route.paramMap.subscribe(ParamsAsMap => {
       const id = ParamsAsMap.get('id');
@@ -47,9 +59,13 @@ export class EditArticleComponent implements OnInit {
       description: [this.article ? this.article.description : '', []],
       famille: [this.article ? this.article.famille : '', []]
     });
+    if (this.article) {
+      this.articleForm.controls.famille.setValue(this.article.famille);
+    }
   }
 
   onSubmitForm() {
+    this.inactif = true;
     const formValue = this.articleForm.value;
     const ref = formValue['ref'] ? formValue['ref'] : uuid.v4().split('-')[0];
     let article: Article;
@@ -71,7 +87,10 @@ export class EditArticleComponent implements OnInit {
 
     article.entreprise = this.us.entreprise;
     this.articleService.saveArticle(article).then((a) => {
+      this.inactif = false;
       this.router.navigate(['articles', 'view', article.id]);
+    }).catch((e) => {
+      console.log(e);
     });
   }
 

@@ -5,6 +5,16 @@
 </div>
 <form [formGroup]="promotionForm" (ngSubmit)="modifier()">
     <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Libellé</label>
+                <input formControlName="libelle" class="form-control">
+
+                <small class="form-text text-muted">
+                    Donnez un nom à la campagne de promotion
+                </small>
+            </div>
+        </div>
         <div class="col-lg-5">
             <div class="form-group">
                 <label for="exampleInputEmail1">Date début</label>
@@ -30,6 +40,19 @@
                 <input type="number" formControlName="pourcentage" class="form-control">
                 <small class="form-text text-muted">
                     Pourcentage de remise
+                </small>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Familles</label>
+                <select formControlName="familles" class="form-control" multiple>
+                    <option *ngFor="let famille of familles; let i = index;" [ngValue]="famille">
+                        {{famille.libelle}}
+                    </option>
+                </select>
+                <small class="form-text text-muted">
+                    Appuyer sur SHIFT pour sélectionner plusieurs familles
                 </small>
             </div>
         </div>

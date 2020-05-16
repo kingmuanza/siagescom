@@ -6,6 +6,7 @@ import { UtilisateurService } from 'src/app/services/utilisateur.service';
 import { ArticleFamille } from 'src/app/models/article.famille.model';
 import * as uuid from 'uuid';
 import { Subscription } from 'rxjs';
+import { Article } from 'src/app/models/article.model';
 
 @Component({
   selector: 'app-edit-article-famille',
@@ -18,6 +19,9 @@ export class EditArticleFamilleComponent implements OnInit, OnDestroy {
   familleForm: FormGroup;
   familles = [];
   famillessSubscription: Subscription;
+  inactif = false;
+  articles: Article[];
+  articlesSubscription: Subscription;
 
   // tslint:disable-next-line:max-line-length
   constructor(private us: UtilisateurService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private articleService: StockService) { }
@@ -30,13 +34,41 @@ export class EditArticleFamilleComponent implements OnInit, OnDestroy {
         this.articleService.getFamille(id).then((famille) => {
           this.famille = famille.data() as ArticleFamille;
           this.initForm();
+          this.articlesSubscription = this.articleService.getAllArticles().subscribe((articles) => {
+            this.articles = articles.filter((article) => {
+              if (article.famille) {
+                if (article.famille.id === famille.id) {
+                  return article.famille.id === famille.id;
+                } else {
+                  if (article.famille.parent) {
+                    return article.famille.parent.id === famille.id;
+                  }
+                }
+              }
+              return false;
+            });
+            console.log('this.articles');
+            console.log(this.articles);
+          });
+          this.articleService.emitArticles();
         });
       }
     });
     this.famillessSubscription = this.articleService.getAllFamilles().subscribe((familles) => {
-      this.familles = familles;
+      this.familles = new Array<ArticleFamille>();
       console.log('this.familles');
       console.log(this.familles);
+      const parents = familles.filter((famille) => {
+        return famille.parent ? false : true;
+      });
+      parents.forEach((parent) => {
+        this.familles.push(parent);
+        familles.forEach((famille) => {
+          if (famille.parent && famille.parent.id === parent.id) {
+            this.familles.push(famille);
+          }
+        });
+      });
     });
   }
 
@@ -49,6 +81,7 @@ export class EditArticleFamilleComponent implements OnInit, OnDestroy {
   }
 
   onSubmitForm() {
+    this.inactif = true;
     const formValue = this.familleForm.value;
     const ref = formValue['ref'] ? formValue['ref'] : uuid.v4().split('-')[0];
     let famille: ArticleFamille;
@@ -71,8 +104,23 @@ export class EditArticleFamilleComponent implements OnInit, OnDestroy {
 
     console.log(famille);
     this.articleService.saveFamille(famille).then((a) => {
+      this.inactif = false;
       this.router.navigate(['familles', 'view', famille.id]);
     });
+  }
+
+  supprimerFamille(famille) {
+    const oui = confirm('Etes-vous sûr de supprimer la famille d\'article ?');
+    if (oui) {
+      if (this.articles.length > 0) {
+        // tslint:disable-next-line:max-line-length
+        alert('Impossible de supprimer la famille d\'articles vu qu\'elle contient des articles. Veuillez supprimer ses articles au préalable !');
+      } else {
+        this.articleService.deleteFamille(famille).then((a) => {
+          this.router.navigate(['familles']);
+        });
+      }
+    }
   }
 
   ngOnDestroy() {

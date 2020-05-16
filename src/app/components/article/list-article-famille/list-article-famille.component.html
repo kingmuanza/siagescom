@@ -1,20 +1,23 @@
 <div>
     <div class="row animated slideInDown" style="margin-bottom: 10px;">
         <div class="col-6">
-            <h4>Familles d'articles</h4>
+            <h4 style="margin-bottom: 0;">Familles d'articles</h4>
+            <span>
+                Retrouvez ici toutes les familles d'article
+            </span>
         </div>
         <div class="col-6">
             <ul class="nav justify-content-end nav-pills">
                 <li class="nav-item" style="margin-left: 10px;">
                     <a class="nav-link active" routerLink="/familles/edit">
-                        +
+                        Nouvelle Famille +
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+    <table style="margin-top: 20px;" class="table row-border hover table-bordered">
         <thead>
             <tr>
                 <th>Référence</th>
@@ -24,9 +27,26 @@
         </thead>
         <tbody>
             <tr *ngFor="let f of familles" (click)="viewFamilleArticle(f)">
-                <td>{{f.ref}}</td>
-                <td>{{f.libelle}}</td>
-                <td>{{f.parent.libelle}}</td>
+                <ng-container *ngIf="f.parent">
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{f.ref}}</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{f.libelle}}</td>
+                    <td>{{f.parent.libelle}}</td>
+                </ng-container>
+                <ng-container *ngIf="!f.parent">
+                    <td>
+                        <b>
+                            {{f.ref | uppercase}}
+                        </b>
+                    </td>
+                    <td>
+                        <b>
+                            {{f.libelle | uppercase}}
+                        </b>
+                    </td>
+                    <td>
+                        
+                    </td>
+                </ng-container>
             </tr>
         </tbody>
     </table>

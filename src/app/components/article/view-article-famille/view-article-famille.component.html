@@ -1,1 +1,309 @@
-<p>view-article-famille works!</p>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-lg-4">
+        <h3>
+            {{famille ? famille.libelle : "Aucun libellé"}}
+        </h3>
+        <h6 class="text-primary">
+            {{famille ? famille.ref : "Aucune référence"}}
+        </h6>
+
+    </div>
+    <div class="col-lg-8">
+        <ul class="nav justify-content-end nav-pills">
+            <li class="nav-item" style="margin-right: 10px;">
+                <a class="nav-link active" (click)="edit(famille)">Modifier la famille</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/familles">Revenir aux familles</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="app-bg-vert" style="text-align: center; height: 15vh;">
+            <div class="effet-vague2">
+                <div class="app-bg-vert">
+                    <div *ngIf="famille" style="padding: 20px;">
+                        <div style="margin-top: -10px; color: #fafafa;">
+                            Famille parente
+                        </div>
+                        <h4 *ngIf="famille.parent" style="cursor: pointer;">
+                            <span (click)="ouvrirSousFamille(famille.parent)" class="text-white">
+                                {{famille.parent ? famille.parent.libelle : 'Aucune famille'}}
+                            </span>
+                        </h4>
+                        <h4 *ngIf="!famille.parent">
+                            <span class="text-white">
+                                Aucune famille
+                            </span>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="app-bg-orange" style="text-align: center; height: 15vh;">
+            <div class="effet-vague">
+                <div class="app-bg-orange">
+                    <div *ngIf="famille" style="padding: 20px;">
+                        <div style="margin-top: -10px; color: #fafafa;">
+                            Sous familles
+                        </div>
+                        <b>
+                            <span (click)="ouvrirSousFamille(sf)"
+                                style="margin-left: 5px; margin-right: 5px;  cursor: pointer;"
+                                *ngFor="let sf of sousFamilles" class="text-white">
+                                {{sf.libelle}}
+                            </span>
+                        </b>
+                        <div>
+                            <u style="margin-left: 5px; margin-right: 5px; cursor: pointer;">
+                                <a class="" data-toggle="modal" data-target="#sousFamilleModal">
+                                    Ajouter une sous famille
+                                </a>
+                            </u>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="famille" class="row" style="margin-top: 20px;">
+
+    <div class="col-lg-12">
+        <div class="row" style="margin-bottom: 10px; margin-top: 30px;">
+            <div class="col-lg-6">
+                <h5 style="padding-bottom: 10px;">
+                    Liste des articles de la famille
+                </h5>
+            </div>
+            <div class="col-lg-6">
+                <ul class="nav justify-content-end nav-pills">
+                    <li class="nav-item" style="margin-right: 10px;">
+                        <a class="nav-link active" data-toggle="modal" data-target="#articleModal">
+                            Ajouter un article
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered row-border hover">
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Libellé</th>
+                    <th>Description</th>
+                    <th>Famille</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let a of articles">
+                    <td>{{a.ref}}</td>
+                    <td>{{a.libelle}}</td>
+                    <td>{{a.description}}</td>
+                    <td>{{a.famille.libelle}}</td>
+                    <td>
+                        <button (click)="viewArticle(a)" class="btn btn-primary btn-sm" style="margin-right: 10px;">
+                            Voir
+                        </button>
+                        <button (click)="modifier(a)" class="btn btn-primary btn-sm" style="margin-right: 10px;">
+                            Modifier
+                        </button>
+                        <button (click)="supprimerArticle(a)" class="btn btn-danger btn-sm">
+                            Supprimer
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nouvel article</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form [formGroup]="articleForm" (ngSubmit)="onSubmitArticleForm()">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Référence de l'article</label>
+                                        <input type="email" formControlName="ref" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nom de l'article</label>
+                                        <input type="email" formControlName="libelle"
+                                            class="form-control form-control-sm">
+                                        <small class="form-text text-muted">
+
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="margin-top: -20px;">
+                                <small class="form-text text-muted">
+                                    Donnez une référence à l'article. Cette référence doit unique.
+                                    Si vous n'en avez pas, laissez le champ vide.
+                                    Une référence sera générée automatiquement
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Description</label>
+                                <textarea formControlName="description" class="form-control">
+
+                                </textarea>
+                                <small class="form-text text-muted">
+
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    Famille d'article <br>
+                                    <small class="form-text text-muted">
+                                        Ceci permet de classer l'article dans une catégorie
+                                    </small>
+                                </label>
+                                <select [formControl]="articleForm.controls.famille" class="custom-select">
+                                    <option *ngIf="famille" selected [ngValue]="famille">
+                                        <ng-container *ngIf="famille.parent">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            {{famille.libelle | titlecase}}
+                                        </ng-container>
+                                        <ng-container *ngIf="!famille.parent">
+                                            {{famille.libelle | uppercase }}
+                                        </ng-container>
+                                    </option>
+                                </select>
+                                <small class="form-text text-muted">
+
+                                </small>
+                            </div>
+                            <div>
+                                <h6>Informations d'achat de l'article</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Qté</label>
+                                        <input type="number" formControlName="qte" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label>Prix d'achat</label>
+                                        <input type="number" formControlName="prixAchat" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <label>Prix de vente</label>
+                                        <input type="number" formControlName="prixVente" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" [disabled]="articleForm.invalid || inactif" class="btn btn-primary">
+                                Enregistrer
+                            </button>
+                            <a class="btn btn-danger" (click)="supprimerArticle(article)"
+                                style="margin-left: 10px; color:#fff;">
+                                Supprimer
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sousFamilleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Sous Famille
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form [formGroup]="sousFamilleForm" (ngSubmit)="onSousFamilleSubmitForm()">
+                            <div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Référence de la famille</label>
+                                <input type="email" formControlName="ref" class="form-control">
+                                <small class="form-text text-muted">
+                                    Donnez une référence à la famille. Cette référence doit unique.
+                                    Si vous n'en avez pas, laissez le champ vide.
+                                    Une référence sera générée automatiquement
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nom de la famille</label>
+                                <input type="email" formControlName="libelle" class="form-control">
+                                <small class="form-text text-muted">
+
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Famille parente <br>
+                                    <small class="form-text text-muted">
+                                        Ceci permet de classer la famille comme sous famille
+                                    </small>
+                                </label>
+                                <select formControlName="parent" class="custom-select">
+                                    <option *ngIf="famille" selected [ngValue]="famille">
+                                        <ng-container *ngIf="famille.parent">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            {{famille.libelle | titlecase}}
+                                        </ng-container>
+                                        <ng-container *ngIf="!famille.parent">
+                                            {{famille.libelle | uppercase }}
+                                        </ng-container>
+                                    </option>
+                                </select>
+                                <small class="form-text text-muted">
+
+                                </small>
+                            </div>
+                            <div>
+                                <button type="submit" [disabled]="sousFamilleForm.invalid || inactif"
+                                    class="btn btn-primary">
+                                    Enregistrer
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

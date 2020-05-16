@@ -13,6 +13,7 @@ import { Utilisateur } from 'src/app/models/utilisateur.model';
 import { faShoppingCart, faSearch, faPlus, faRedo } from '@fortawesome/free-solid-svg-icons';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
+import { Article } from 'src/app/models/article.model';
 
 @Component({
   selector: 'app-edit-vente',
@@ -211,11 +212,50 @@ export class EditVenteComponent implements OnInit {
     return somme;
   }
 
+  articleEstDansLaFamilleDePromotion(article: Article, promotion: Promotion) {
+    if (promotion.familles) {
+      for (let i = 0; i < promotion.familles.length; i++) {
+        const famille = promotion.familles[i];
+        if (article.famille) {
+          if (famille.id === article.famille.id) {
+            return true;
+          }
+        } else {
+          return false;
+        }
+      }
+      return false;
+    }
+    return true;
+  }
+
   montantRemiseMax(ventesArticles: VenteArticle[]) {
+    console.log('montantRemiseMax');
     const pourcentage = this.uS.utilisateur.pourcentageRemise;
     if (this.promotion) {
-      return (pourcentage + this.promotion.pourcentageRemise) * 0.01 * this.total(ventesArticles);
+      console.log('promotion');
+      if (this.promotion.familles) {
+        console.log('la promotion a des familles');
+        const ventesArticles2 = [];
+        console.log(ventesArticles);
+        for (let i = 0; i < ventesArticles.length; i++) {
+          const va = ventesArticles[i];
+          console.log('va.entree.article');
+          console.log(va.entree.article);
+          if (this.articleEstDansLaFamilleDePromotion(va.entree.article, this.promotion)) {
+            console.log('L\'article est dans famille');
+            ventesArticles2.push(va);
+            console.log('ventesArticles2');
+            console.log(ventesArticles2);
+          }
+        }
+        return (this.promotion.pourcentageRemise) * 0.01 * this.total(ventesArticles2);
+      } else {
+        return (this.promotion.pourcentageRemise) * 0.01 * this.total(ventesArticles);
+      }
+
     } else {
+      console.log('Aucune promotion');
       return pourcentage * 0.01 * this.total(ventesArticles);
     }
 

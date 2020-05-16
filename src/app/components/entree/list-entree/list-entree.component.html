@@ -30,7 +30,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let a of achats" (click)="viewEntree(a)">
-                <td>{{getDate(a) | date:'short'}}</td>
+                <td>{{getDate(a)}}</td>
                 <td>{{a.article.libelle}}</td>
                 <td>
                     {{a.article.description ? a.article.description: "Aucune description"}}

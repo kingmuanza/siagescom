@@ -40,8 +40,27 @@ export class ListArticleComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  modifier(a: Article) {
+    this.router.navigate(['articles', 'edit', a.id]);
+  }
+
+  supprimerArticle(article: Article) {
+    const oui = confirm('Etes-vous sûr de supprimer l\'article ?');
+    if (oui) {
+      this.articleService.deleteArticle(article).then((a) => {
+        this.router.navigate(['articles']);
+      });
+    }
+  }
   viewArticle(a: Article) {
     this.router.navigate(['articles', 'view', a.id]);
+  }
+
+  ouvrirFamille(a: Article) {
+    if (a.famille) {
+      this.router.navigate(['familles', 'view', a.famille.id]);
+    }
   }
 
   ngOnDestroy() {

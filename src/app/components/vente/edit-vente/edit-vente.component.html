@@ -6,7 +6,21 @@
         <div class="alert alert-primary" role="alert" *ngIf="promotion">
             Une promotion est en cours actuellement, une remise de
             <b>{{promotion.pourcentageRemise}}%</b>
-            sera accordée sur tous les articles
+            sera accordée sur
+            <span *ngIf="!promotion.familles">
+                tous les articles
+            </span>
+            <span *ngIf="promotion.familles">
+                <span *ngIf="promotion.familles.length===0">
+                    tous les articles
+                </span>
+                <span *ngIf="promotion.familles.length > 0">
+                    les articles des familles suivantes : 
+                    <span *ngFor="let famille of promotion.familles">
+                        {{famille.libelle}} ; 
+                    </span>
+                </span>
+            </span>
         </div>
         <div class="alert alert-primary" role="alert" *ngIf="utilisateur">
             Vous ne pouvez accorder une remise au-delà de
@@ -22,7 +36,8 @@
                             <fa-icon [icon]="faSearch"></fa-icon>
                         </span>
                     </div>
-                    <input type="text" placeholder="Rechercher un article" formControlName="rechercher" class="form-control">
+                    <input type="text" placeholder="Rechercher un article" formControlName="rechercher"
+                        class="form-control">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -57,7 +72,8 @@
                 </div>
             </div>
             <div class="col-lg-1">
-                <button type="submit" style="width: 100%" [disabled]="vaForm.invalid || !quantiteRaisonnable" class="btn btn-primary">
+                <button type="submit" style="width: 100%" [disabled]="vaForm.invalid || !quantiteRaisonnable"
+                    class="btn btn-primary">
                     <fa-icon *ngIf="!mobile" [icon]="faPlus"></fa-icon>
                     <span *ngIf="mobile">Ajouter</span>
                 </button>
@@ -152,7 +168,8 @@
                         <fa-icon [icon]="faSearch"></fa-icon>
                     </span>
                 </div>
-                <input [(ngModel)]="rechercherNom" placeholder="Rechercher client" (keyup)="rechercherClient()" type="text" class="form-control">
+                <input [(ngModel)]="rechercherNom" placeholder="Rechercher client" (keyup)="rechercherClient()"
+                    type="text" class="form-control">
             </div>
         </div>
         <div class="col-lg-8 col-9">
@@ -172,7 +189,8 @@
             </div>
         </div>
         <div class="col-lg-1 col-3">
-            <button style="width: 100%" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <button style="width: 100%" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#exampleModal">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
         </div>

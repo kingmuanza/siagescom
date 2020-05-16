@@ -33,7 +33,11 @@ export class ListEntreeComponent implements OnInit, OnDestroy {
 
   getDate(achat: Entree) {
     const x = achat['date'] as any;
-    return new Date(x.seconds);
+    if (x.sconds) {
+      return new Date(x);
+    } else {
+      return new Date(x);
+    }
   }
 
   ngOnInit() {

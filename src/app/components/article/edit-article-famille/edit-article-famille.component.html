@@ -32,17 +32,29 @@
                 </label>
                 <select formControlName="parent"  class="custom-select">
                     <option *ngFor="let f of familles; let i = index;" [ngValue]="f">
-                        {{f.libelle}}
+                        <ng-container *ngIf="f.parent">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{f.libelle | titlecase}}
+                        </ng-container>
+                        <ng-container *ngIf="!f.parent">
+                            {{f.libelle | uppercase }}
+                        </ng-container>
+                        
                     </option>
                 </select>
                 <small class="form-text text-muted">
 
                 </small>
             </div>
+            <div>
+                <button type="submit" [disabled]="familleForm.invalid || inactif" class="btn btn-primary">
+                    Enregistrer
+                </button>
+                <a *ngIf="famille" (click)="supprimerFamille(famille)" class="btn btn-danger" style="margin-left: 10px; color: white;">
+                    Supprimer
+                </a>
 
-
-
-            <button type="submit" [disabled]="familleForm.invalid" class="btn btn-primary">Enregistrer</button>
+            </div>
         </form>
     </div>
     <div class="col-lg-6">

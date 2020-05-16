@@ -43,9 +43,16 @@ export class StockService {
     return this.db.collection('familles').doc(id).get().toPromise();
   }
 
-  saveArticle(article: Article) {
-    return this.db.collection('articles').doc(article.id).set(Object.assign({}, article));
+  saveArticle(article: Article): Promise<Article> {
+    return new Promise((resolve, reject) => {
+      this.db.collection('articles').doc(article.id).set(Object.assign({}, article)).then(() => {
+        resolve(article);
+      }).catch((e) => {
+        reject(e);
+      });
+    });
   }
+
   saveFamille(famille: ArticleFamille) {
     return this.db.collection('familles').doc(famille.id).set(Object.assign({}, famille));
   }

@@ -1,4 +1,4 @@
- import { Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { ListUtilisateurComponent } from './components/utilisateur/list-utilisateur/list-utilisateur.component';
 import { EditUtilisateurComponent } from './components/utilisateur/edit-utilisateur/edit-utilisateur.component';
 import { ViewUtilisateurComponent } from './components/utilisateur/view-utilisateur/view-utilisateur.component';

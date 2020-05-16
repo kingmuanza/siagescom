@@ -20,14 +20,22 @@
             <tr>
                 <th>Début</th>
                 <th>Fin</th>
+                <th>Libellé</th>
                 <th>Pourcentage</th>
+                <th>Familles</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let promotion of promotions" (click)="viewPromotion(promotion)">
                 <td>{{promotion.dateDebut | date:'yyyy-MM-dd'}}</td>
                 <td>{{promotion.dateFin | date:'yyyy-MM-dd'}}</td>
+                <td>{{promotion.libelle ? promotion.libelle: 'Aucun libellé'}}</td>
                 <td>{{promotion.pourcentageRemise}}%</td>
+                <td>
+                    <span *ngFor="let famille of promotion.familles" class="famille">
+                        {{famille.libelle}}
+                    </span>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -41,15 +41,23 @@
                     </small>
                 </label>
                 <select [formControl]="articleForm.controls.famille" class="custom-select">
-                    <option *ngFor="let famille of familles; let i = index;" [ngValue]="famille">
-                        {{famille.libelle}}
-                    </option>
+                    <ng-container *ngFor="let famille of familles; let i = index;" >
+                        <option [selected]="article && article.famille ? article.famille.id === famille.id: false" [ngValue]="famille">
+                            <ng-container *ngIf="famille.parent">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                {{famille.libelle | titlecase}}
+                            </ng-container>
+                            <ng-container *ngIf="!famille.parent">
+                                {{famille.libelle | uppercase }}
+                            </ng-container>
+                        </option>
+                    </ng-container>
                 </select>
                 <small class="form-text text-muted">
 
                 </small>
             </div>
-            <button type="submit" [disabled]="articleForm.invalid" class="btn btn-primary">
+            <button type="submit" [disabled]="articleForm.invalid || inactif" class="btn btn-primary">
                 Enregistrer
             </button>
             <a class="btn btn-danger" (click)="supprimerArticle(article)" style="margin-left: 10px; color:#fff;">
@@ -73,4 +81,7 @@
             </p>
         </div>
     </div>
+</div>
+<div style="height: 50vh;">
+
 </div>

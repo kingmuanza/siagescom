@@ -1,39 +1,55 @@
 <div>
     <div class="row animated slideInDown" style="margin-bottom: 10px;">
-        <div class="col-6">
+        <div class="col-4">
             <h4>Articles</h4>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <ul class="nav justify-content-end nav-pills">
                 <li class="nav-item link">
                     <a class="nav-link" routerLink="/familles">
-                        Familles
+                        Familles d'articles
                     </a>
                 </li>
                 <li class="nav-item" style="margin-left: 10px;">
                     <a class="nav-link active" routerLink="/articles/edit">
-                        +
+                        Nouvel article
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered row-border hover">
         <thead>
             <tr>
                 <th>Référence</th>
                 <th>Libellé</th>
                 <th>Description</th>
                 <th>Famille</th>
+                <th style="width: 30%;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let a of articles" (click)="viewArticle(a)">
+            <tr *ngFor="let a of articles">
                 <td>{{a.ref}}</td>
                 <td>{{a.libelle}}</td>
                 <td>{{a.description}}</td>
-                <td>{{a.famille.libelle}}</td>
+                <td>
+                    <u class="famille" (click)="ouvrirFamille(a)">
+                        {{a.famille.libelle}}
+                    </u>
+                </td>
+                <td style="width: 30%;">
+                    <button (click)="viewArticle(a)" class="btn btn-primary btn-sm" style="margin-right: 10px;">
+                        Voir
+                    </button>
+                    <button (click)="modifier(a)" class="btn btn-primary btn-sm" style="margin-right: 10px;">
+                        Modifier
+                    </button>
+                    <button (click)="supprimerArticle(a)" class="btn btn-danger btn-sm">
+                        Supprimer
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
