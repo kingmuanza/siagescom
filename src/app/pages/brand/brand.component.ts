@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { faUsers, faMobile, faMoneyBill, faList, faCalendar, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as firebase from 'firebase';
-import { Email } from 'src/app/services/smtp';
 
 @Component({
   selector: 'app-brand',
@@ -21,9 +20,6 @@ export class BrandComponent implements OnInit {
   mailForm: FormGroup;
   message = '';
 
-  SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
-  TOKEN_PATH = 'token.json';
-
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -37,19 +33,6 @@ export class BrandComponent implements OnInit {
 
   envoyerMail() {
     console.log('Envoi du mail !!');
-    /*
-    Email.send({
-      Host: 'smtp.elasticemail.com',
-      Username: 'muanza.kangudie@gmail.com',
-      Password: '410a87ea-bff9-43b8-bde6-cee9530e51c5',
-      To: 'kangudie.muanza@gmail.com',
-      From: 'muanza.kangudie@gmail.com',
-      Subject: 'This is the subject',
-      Body: 'And this is the body'
-    }).then(
-      message => alert(message)
-    );
-      */
   }
 
   initMailForm() {

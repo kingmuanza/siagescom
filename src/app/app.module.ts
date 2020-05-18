@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -72,6 +74,8 @@ const FIREBASE_CONFIG = {
   appId: '1:877554049922:web:76766421e905e01a'
 };
 
+registerLocaleData(localeFr, 'fr-FR');
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -132,6 +136,7 @@ const FIREBASE_CONFIG = {
     ChartsModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR'},
     AuthGuard,
     Guard,
     AchatService,
