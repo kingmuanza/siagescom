@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VenteService } from 'src/app/services/vente.service';
 import { Vente } from 'src/app/models/vente.model';
 import { VenteArticle } from 'src/app/models/vente.articles.model';
-import { faPlus, faMoneyBill, faList } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMoneyBill, faList, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as firebase from 'firebase';
 
@@ -20,6 +20,7 @@ export class ViewVenteComponent implements OnInit {
   ventes = [];
   faPlus = faPlus;
   faList = faList;
+  faTrash = faTrash;
   faMoneyBill = faMoneyBill;
   paiementForm: FormGroup;
   mobile = false;
@@ -43,6 +44,13 @@ export class ViewVenteComponent implements OnInit {
         this.initPaiementForm();
       });
     });
+  }
+
+  supprimer(vente: Vente) {
+    const oui = confirm('Etes-vous sûrs de vouloir supprimer cette vente ?');
+    if (oui) {
+      this.venteService.deleteVente(vente);
+    }
   }
 
   getDate(vente: Vente) {

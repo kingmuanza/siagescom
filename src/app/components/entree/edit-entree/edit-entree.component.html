@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div>
             <h4>
                 {{achat ? "Modifier l'achat": "Nouvel achat"}}
@@ -7,47 +7,85 @@
         </div>
         <form [formGroup]="achatForm" (ngSubmit)="modifier()">
             <div class="">
-                <div class="">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Article</label>
-                        <select type="email" formControlName="article" class="form-control">
-                            <option disabled>
-                                Choissez un article
-                            </option>
-                            <option *ngFor="let article of articles; let i = index;" [ngValue]="article">
-                                {{article.libelle}}
-                            </option>
-                        </select>
-                        <small class="form-text text-muted">
-                            Si l'article n'est pas présent vous pouvez le créer en cliquant ici
-                        </small>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Famille d'article</label>
+
+                            <select formControlName="famille" class="custom-select">
+                                <option disabled>
+                                    Rechercher dans une famille
+                                </option>
+                                <option value="">
+                                    Rechercher dans toutes les familles
+                                </option>
+                                <option *ngFor="let f of familles; let i = index;" [ngValue]="f">
+                                    <ng-container *ngIf="f.parent">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        {{f.libelle | titlecase}}
+                                    </ng-container>
+                                    <ng-container *ngIf="!f.parent">
+                                        {{f.libelle | uppercase }}
+                                    </ng-container>
+
+                                </option>
+                            </select>
+                            <small class="form-text text-muted">
+                                Si l'article n'est pas présent vous pouvez le créer en cliquant ici
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Rechercher un article</label>
+                            <input formControlName="rechercher" class="form-control">
+                            <small class="form-text text-muted"></small>
+                        </div>
                     </div>
                 </div>
-                <div class="">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Prix unitaire d'achat</label>
-                        <input type="number" formControlName="prixAchat" class="form-control">
-                        <small class="form-text text-muted">
 
-                        </small>
+                <div>
+                    <div style="margin-bottom: 20px; line-height: 1.0;">
+                        <ul class="list-group list-group-horizontal-sm">
+                            <ng-container *ngFor="let article of articles; let i = index">
+                                <li *ngIf="i < 5" [ngClass]="{'list-group-item-primary': isSelected(article)}"
+                                    (click)="selectionner(i)" class="list-group-item">
+                                    <div style="font-size: 1.2em;">
+                                        {{article.libelle}}
+                                    </div>
+                                    <div>
+                                        <i>{{article.description}}</i>
+                                    </div>
+                                </li>
+                            </ng-container>
+                        </ul>
                     </div>
                 </div>
-                <div class="">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Prix unitaire de vente</label>
-                        <input type="number" formControlName="prixVente" class="form-control">
-                        <small class="form-text text-muted">
-
-                        </small>
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Prix unitaire d'achat</label>
+                            <input type="number" formControlName="prixAchat" class="form-control">
+                            <small class="form-text text-muted"></small>
+                        </div>
                     </div>
-                </div>
-                <div class="">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Quantité</label>
-                        <input type="number" formControlName="quantite" class="form-control">
-                        <small class="form-text text-muted">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Prix unitaire de vente</label>
+                            <input type="number" formControlName="prixVente" class="form-control">
+                            <small class="form-text text-muted">
 
-                        </small>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Quantité</label>
+                            <input type="number" formControlName="quantite" class="form-control">
+                            <small class="form-text text-muted">
+
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,7 +97,7 @@
             </div>
         </form>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div style="width: 100%">
             <div style="text-align: right; margin-top: 0px;">
                 <button (click)="supprimerAchat(achat)" *ngIf="achat" class="btn btn-danger " style="margin-left: 0px;">

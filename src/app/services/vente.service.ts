@@ -142,7 +142,7 @@ export class VenteService {
   }
 
   deleteVente(vente: Vente) {
-    return this.db.collection('promotions').doc(vente.id).delete();
+    return this.db.collection('ventes').doc(vente.id).delete();
   }
   deletePromotion(promotion: Promotion) {
     return this.db.collection('promotions').doc(promotion.id).delete();

@@ -57,4 +57,14 @@ export class ListEntreeComponent implements OnInit, OnDestroy {
     this.achatsSubscription.unsubscribe();
   }
 
+
+  showDate(date) {
+    if (date.seconds) {
+      return new Date(date.seconds * 1000);
+    } else {
+      return new Date(date);
+    }
+  }
+
+
 }

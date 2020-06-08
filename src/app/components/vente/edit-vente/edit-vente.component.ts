@@ -14,6 +14,9 @@ import { faShoppingCart, faSearch, faPlus, faRedo } from '@fortawesome/free-soli
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { Article } from 'src/app/models/article.model';
+import { StockService } from 'src/app/services/stock.service';
+import { ArticleFamille } from 'src/app/models/article.famille.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-vente',
@@ -30,6 +33,7 @@ export class EditVenteComponent implements OnInit {
   ventesArticles = new Array<VenteArticle>();
   entrees: Entree[];
   ENTREES: Entree[];
+  entreesLoaded = false;
 
   vente: Vente;
   vaForm: FormGroup;
@@ -53,61 +57,63 @@ export class EditVenteComponent implements OnInit {
   mobile = false;
   quantiteRaisonnable = false;
 
+  openAlert = true;
+
+  familles: ArticleFamille[];
+  famillesSubscription: Subscription;
+
+  articleReady = '-1';
+
+
   // tslint:disable-next-line:max-line-length
-  constructor(private clientService: ClientService, private venteService: VenteService, private uS: UtilisateurService, private achatService: AchatService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
+  constructor(
+    private clientService: ClientService,
+    private venteService: VenteService,
+    private uS: UtilisateurService,
+    private achatService: AchatService,
+    private router: Router,
+    private articleService: StockService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder) { }
 
   rechercherClient() {
 
+  }
+
+  fermerAlert() {
+    this.openAlert = false;
   }
 
   ngOnInit() {
     if (window.screen.width < 500) { // 768px portrait
       this.mobile = true;
     }
+
+    this.famillesSubscription = this.articleService.getAllFamilles().subscribe((familles) => {
+      this.familles = new Array<ArticleFamille>();
+      console.log('this.familles');
+      console.log(this.familles);
+      const parents = familles.filter((famille) => {
+        return famille.parent ? false : true;
+      });
+      parents.forEach((parent) => {
+        this.familles.push(parent);
+        familles.forEach((famille) => {
+          if (famille.parent && famille.parent.id === parent.id) {
+            this.familles.push(famille);
+          }
+        });
+      });
+    });
+
     this.utilisateur = this.uS.utilisateur;
     this.initForm();
-    this.vaForm.valueChanges.pipe().subscribe((value) => {
-      console.log('value');
-      console.log(value);
-      const entrees = new Array<Entree>();
-      for (let i = 0; i < this.ENTREES.length; i++) {
-        const entree = this.ENTREES[i];
-        /*console.log('entree.article.libelle');
-        console.log(entree.article.libelle);
-        console.log(entree.article.libelle.indexOf(value.rechercher));*/
-        if (entree.article.libelle.indexOf(value.rechercher) > -1) {
-          entrees.push(entree);
-          console.log('entree.quantiteActuelle');
-          console.log(entree.quantiteActuelle);
-        }
-      }
-      console.log('value.article.quantiteActuelle');
-      console.log(value.article.quantiteActuelle);
-      console.log('value.quantite');
-      console.log(value.quantite);
-      this.entrees = entrees;
-      if (value.article.quantiteActuelle && value.quantite) {
-        if (value.article.quantiteActuelle < value.quantite) {
-          this.quantiteRaisonnable = false;
-        }
-        if (value.quantite < 1) {
-          this.quantiteRaisonnable = false;
-        }
-        if (value.article.quantiteActuelle >= value.quantite && value.quantite > 0) {
-          this.quantiteRaisonnable = true;
-        }
-      }
-    });
+
     this.initRemiseForm();
     this.initClientForm();
-    this.route.paramMap.subscribe(ParamsAsMap => {
-      const id = ParamsAsMap.get('id');
-      this.achatService.getAllEntrees().subscribe((entrees: Entree[]) => {
-        this.entrees = entrees;
-        this.ENTREES = entrees;
-      });
-      this.achatService.emitEntrees();
-    });
+
+    this.getAll();
+
     this.venteService.getAllPromotions().subscribe((promotions: Promotion[]) => {
       this.promotions = promotions;
       this.promotion = this.venteService.getPromotionEnCours(this.promotions);
@@ -116,26 +122,73 @@ export class EditVenteComponent implements OnInit {
       console.log('this.promotion');
       console.log(this.promotion);
     });
-    this.venteService.emitPromotions();
+
     this.clientService.getAllClients().subscribe((clients: Client[]) => {
       console.log('this.clients');
       console.log(this.clients);
       this.clients = clients;
     });
-    this.clientService.emitClients();
   }
 
   setLibelleToNLength(libelle: string) {
     return libelle.toUpperCase();
   }
 
+  getAll() {
+    this.achatService.getAllEntrees().subscribe((entrees: Entree[]) => {
+      this.entrees = entrees;
+      this.ENTREES = entrees;
+      this.entreesLoaded = true;
+      console.log('Les entrées ont été sauvegardées !!!');
+    });
+  }
+
   initForm() {
     this.vaForm = this.formBuilder.group({
       rechercher: ['', []],
+      famille: ['', []],
       article: [this.venteArticles ? this.venteArticles.entree : '', [Validators.required]],
       quantite: [this.venteArticles ? this.venteArticles.quantite : '', [Validators.required]]
     });
+    this.vaForm.get('famille').valueChanges.subscribe((val: ArticleFamille) => {
+      console.log('famille val');
+      console.log(val);
+      if (val && val.id) {
+        this.entrees = this.entrees.filter((entree) => {
+          return entree.article.famille.id === val.id;
+        });
+        this.ENTREES = this.entrees;
+      } else {
+        this.getAll();
+      }
+    });
+    this.vaForm.get('rechercher').valueChanges.subscribe((val2) => {
+      this.entrees = this.ENTREES;
+      console.log('val2 : ' + val2);
+      if (val2) {
+        this.entrees = this.entrees.filter((entree) => {
+          return entree.article.libelle.toLowerCase().indexOf(val2) !== -1;
+        });
+        if (this.entrees.length > 0) {
+          this.vaForm.get('article').setValue(this.entrees[0]);
+        }
+      }
+    });
+    this.vaForm.valueChanges.subscribe(() => {
+      if (this.vaForm.value.article.quantite >= this.vaForm.value.quantite) {
+        if (this.vaForm.value.quantite > 0) {
+          this.quantiteRaisonnable = true;
+        }
+      } else {
+        this.quantiteRaisonnable = false;
+      }
+    });
   }
+
+  selectionner(i) {
+    this.vaForm.get('article').setValue(this.entrees[i]);
+  }
+
   initRemiseForm() {
     this.remiseForm = this.formBuilder.group({
       remise: [this.montantRemiseMax(this.ventesArticles), [Validators.required]]
@@ -170,13 +223,32 @@ export class EditVenteComponent implements OnInit {
 
   onSubmitForm() {
     const formValue = this.vaForm.value;
+    this.retrancherQuantite(formValue.article, formValue.quantite);
     const ligne = new VenteArticle(formValue.article, formValue.quantite);
+    console.log('ligne');
     console.log(ligne);
     this.ventesArticles.push(ligne);
     this.initForm();
     this.initRemiseForm();
     this.calcul();
-    this.retrancherQuantite(formValue.article, formValue.quantite);
+  }
+
+  isPresent(entree: Entree) {
+    for (let i = 0; i < this.ventesArticles.length; i++) {
+      const va = this.ventesArticles[i];
+      if (va.entree.id === entree.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isReady(entree: Entree) {
+    if (this.vaForm.value.article.id === entree.id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   retirer(va: VenteArticle) {
@@ -255,7 +327,7 @@ export class EditVenteComponent implements OnInit {
       }
 
     } else {
-      console.log('Aucune promotion');
+      // console.log('Aucune promotion');
       return pourcentage * 0.01 * this.total(ventesArticles);
     }
 
@@ -318,6 +390,14 @@ export class EditVenteComponent implements OnInit {
       const modal = $('#exampleModal') as any;
       modal.modal('hide');
     });
+  }
+
+  showDate(date) {
+    if (date.seconds) {
+      return new Date(date.seconds * 1000);
+    } else {
+      return new Date(date);
+    }
   }
 
 }

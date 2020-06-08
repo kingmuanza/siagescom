@@ -16,6 +16,16 @@
                     </a>
                 </li>
                 <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link btn-light" (click)="supprimer()">
+                        <span style="margin-right: 5px; display: inline-block; ">
+                            <span style="margin-right: 5px;">
+                                Supprimer
+                            </span>
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-left: 10px;">
                     <a class="nav-link btn-light" routerLink="/ventes">
                         <span style="margin-right: 5px; display: inline-block; ">
                             <fa-icon [icon]="faList"></fa-icon>
@@ -86,7 +96,7 @@
                         </div>
                         <div style="margin-top: -5px">
                             <small>
-                                Stock du {{va.entree.date.toDate() | date:'yyyy-MM-dd'}}
+                                Stock du {{va.entree.date | date:'yyyy-MM-dd'}}
                             </small>
                         </div>
                     </td>

@@ -15,21 +15,47 @@
                     tous les articles
                 </span>
                 <span *ngIf="promotion.familles.length > 0">
-                    les articles des familles suivantes : 
+                    les articles des familles suivantes :
                     <span *ngFor="let famille of promotion.familles">
-                        {{famille.libelle}} ; 
+                        {{famille.libelle}} ;
                     </span>
                 </span>
             </span>
         </div>
-        <div class="alert alert-primary" role="alert" *ngIf="utilisateur">
+        <div class="alert alert-primary" role="alert" *ngIf="utilisateur && openAlert">
+            <span (click)="fermerAlert()" class="fermer" style="float: right;">
+                <b>x</b>
+            </span>
             Vous ne pouvez accorder une remise au-delà de
             <b>{{utilisateur.pourcentageRemise}}%</b>
         </div>
     </div>
     <form [formGroup]="vaForm" (ngSubmit)="onSubmitForm()">
         <div class="row">
-            <div class="col-lg-3">
+            
+            <div class="col-lg-5">
+                <div class="input-group mb-3">
+                    <select formControlName="famille" class="custom-select">
+                        <option disabled>
+                            Rechercher dans une famille
+                        </option>
+                        <option value="">
+                            Rechercher dans toutes les familles
+                        </option>
+                        <option *ngFor="let f of familles; let i = index;" [ngValue]="f">
+                            <ng-container *ngIf="f.parent">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                {{f.libelle | titlecase}}
+                            </ng-container>
+                            <ng-container *ngIf="!f.parent">
+                                {{f.libelle | uppercase }}
+                            </ng-container>
+
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-7">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">
@@ -40,7 +66,30 @@
                         class="form-control">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
+                <div style="margin-bottom: 20px; line-height: 1.0;">
+                    <ul class="list-group list-group-horizontal-sm">
+                        <ng-container *ngFor="let entree of entrees; let i = index">
+                            <li *ngIf="i < 5" [ngClass]="{'list-group-item-primary': isPresent(entree), 'list-group-item-secondary': isReady(entree)}"
+                                (click)="selectionner(i)" class="list-group-item">
+                                <div style="font-size: 1.2em;">
+                                    <b style="float: right;">
+                                        {{entree.quantiteActuelle}}
+                                    </b>
+                                    {{entree.article.libelle}}
+                                </div>
+                                <div>
+                                    <i>{{entree.article.description}}</i>
+                                </div>
+                                <small style="color: #777;">
+                                    {{showDate(entree.date) | date: 'yyyy-MM-dd'}}
+                                </small>
+                            </li>
+                        </ng-container>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6" [ngClass]="{'transparent': !entreesLoaded}">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">
@@ -52,16 +101,16 @@
                             <option *ngIf="entree.quantiteActuelle>0" [ngValue]="entree">
                                 {{setLibelleToNLength(entree.article.libelle)}}
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                {{entree.quantiteActuelle}}
+                                Qté: {{entree.quantiteActuelle}}
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                {{entree.date.toDate() | date:'yyyy-MM-dd'}}
+                                Date: {{showDate(entree.date) | date: 'yyyy-MM-dd'}}
                             </option>
                         </ng-container>
 
                     </select>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">
@@ -71,14 +120,15 @@
                     <input type="number" formControlName="quantite" class="form-control">
                 </div>
             </div>
-            <div class="col-lg-1">
+            <div class="col-lg-3">
                 <button type="submit" style="width: 100%" [disabled]="vaForm.invalid || !quantiteRaisonnable"
                     class="btn btn-primary">
-                    <fa-icon *ngIf="!mobile" [icon]="faPlus"></fa-icon>
-                    <span *ngIf="mobile">Ajouter</span>
+                    <fa-icon *ngIf="mobile" [icon]="faPlus"></fa-icon>
+                    <span *ngIf="!mobile">Ajouter au panier</span>
                 </button>
             </div>
         </div>
+
     </form>
 
     <div style="margin-top: 10px;">
@@ -103,7 +153,7 @@
                         </div>
                         <div style="margin-top: -5px">
                             <small>
-                                Stock du {{va.entree.date.toDate() | date:'yyyy-MM-dd'}}
+                                Stock du {{showDate(va.entree.date) | date: 'yyyy-MM-dd'}}
                             </small>
                         </div>
                     </td>
@@ -172,7 +222,7 @@
                     type="text" class="form-control">
             </div>
         </div>
-        <div class="col-lg-8 col-9">
+        <div class="col-lg-6 col-9">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">
@@ -188,10 +238,10 @@
                 </select>
             </div>
         </div>
-        <div class="col-lg-1 col-3">
+        <div class="col-lg-3 col-3">
             <button style="width: 100%" type="button" class="btn btn-primary" data-toggle="modal"
                 data-target="#exampleModal">
-                <fa-icon [icon]="faPlus"></fa-icon>
+                Nouveau client
             </button>
         </div>
     </div>

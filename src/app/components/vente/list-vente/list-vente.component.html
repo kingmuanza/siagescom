@@ -6,13 +6,8 @@
         <div class="col-6">
             <ul class="nav justify-content-end nav-pills">
                 <li class="nav-item" style="margin-left: 10px;">
-                    <a class="nav-link btn-light" routerLink="/ventes/edit">
-                        <span style="margin-right: 5px; display: inline-block; ">
-                            <fa-icon [icon]="faShoppingCart"></fa-icon>
-                        </span>
-                        <sup style="margin-left: 0px;">
-                            <fa-icon [icon]="faPlus"></fa-icon>
-                        </sup>
+                    <a class="nav-link active" routerLink="/ventes/edit">
+                        Nouvelle vente
                     </a>
                 </li>
             </ul>
@@ -49,9 +44,6 @@
             </form>
         </div>
     </div>
-
-    <app-stats-ventes [ventes]="VENTES"></app-stats-ventes>
-
     
     <app-table-ventes [ventes]="VENTES"></app-table-ventes>
 </div>

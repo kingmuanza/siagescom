@@ -9,3 +9,15 @@
         margin-bottom: 20px;
     }
 }
+
+.transparent {
+    opacity: 0.4;
+}
+
+
+.fermer {
+    cursor: pointer;
+    &:hover {
+        opacity: 0.5;
+    }
+}

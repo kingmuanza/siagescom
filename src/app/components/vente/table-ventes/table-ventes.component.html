@@ -16,8 +16,7 @@
         </tr>
     </thead>
     <tbody *ngIf="isIterable(ventes)" [ngClass]="{'borderTopTable':addClassTime}">
-        <tr [ngClass]="{'error': sommePercue(vente)<total(vente.ventesArticles) - remise(vente)}"
-            *ngFor="let vente of ventes" (click)="viewVente(vente)">
+        <tr *ngFor="let vente of ventes" (click)="viewVente(vente)">
             <td>{{vente.date.toDate() | date:'yyyy-MM-dd HH:mm'}}</td>
             <td>{{vente.utilisateur.nom}}</td>
             <td>{{vente.client ? vente.client.nomComplet : ''}}</td>
@@ -40,7 +39,7 @@
                     {{total(vente.ventesArticles) - remise(vente) | currency:'XAF':'' }}
                 </b>
             </td>
-            <td style="text-align: right">
+            <td [ngClass]="{'error': sommePercue(vente)<total(vente.ventesArticles) - remise(vente)}" style="text-align: right">
                 <b>
                     {{sommePercue(vente) | currency:'XAF':'' }}
                 </b>

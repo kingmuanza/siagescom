@@ -70,9 +70,14 @@ export class ViewEntreeComponent implements OnInit, OnDestroy {
     }
   }
 
-  getDate(achat: Entree) {
-    const x = achat['date'] as any;
-    return new Date(x.seconds);
+  showDate(date) {
+    console.log('fvgkbhljmk,ùml;');
+    console.log(date);
+    if (date.seconds) {
+      return new Date(date.seconds * 1000);
+    } else {
+      return new Date(date);
+    }
   }
 
   gainDeLentreeSurVente(achat: Entree, vente: Vente) {
