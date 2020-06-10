@@ -42,7 +42,6 @@
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/smtpjs/smtp.js",
               "node_modules/html2canvas/dist/html2canvas.min.js"
             ]
           },
